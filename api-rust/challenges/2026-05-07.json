@@ -1,0 +1,118 @@
+[
+  {
+    "id": "ch-131",
+    "date": "2026-05-07",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this code log?",
+    "code_snippet": "const arr = [1, 2, 3];\nconst doubled = arr.map(x => x * 2);\nconsole.log(arr);\nconsole.log(doubled);",
+    "options": [
+      "[2, 4, 6] and [2, 4, 6]",
+      "[1, 2, 3] and [2, 4, 6]",
+      "[1, 2, 3] and [1, 2, 3]",
+      "undefined and [2, 4, 6]"
+    ],
+    "correct_answer": "[1, 2, 3] and [2, 4, 6]",
+    "explanation": "`Array.map()` returns a new array without mutating the original. `arr` is unchanged at `[1, 2, 3]`, and `doubled` is the new array `[2, 4, 6]`. This immutability is why `map` (and `filter`, `slice`) are preferred over mutating methods in functional/React patterns.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-132",
+    "date": "2026-05-07",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "What does a Kubernetes liveness probe do?",
+    "options": [
+      "Checks if a pod is ready to receive traffic",
+      "Restarts a container if the probe fails",
+      "Scales the pod count based on CPU usage",
+      "Monitors memory usage and sends alerts"
+    ],
+    "correct_answer": "Restarts a container if the probe fails",
+    "explanation": "A liveness probe periodically checks if a container is still alive and healthy. If it fails repeatedly, Kubernetes restarts the container. This handles cases like deadlocks or crashes where the process is running but not functioning. A readiness probe (different) controls whether the pod receives traffic.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-133",
+    "date": "2026-05-07",
+    "topic": "backend",
+    "type": "predict-output",
+    "prompt": "What is the correct order of execution for this async/await code?",
+    "code_snippet": "async function main() {\n  console.log('A');\n  const result = await Promise.resolve('B');\n  console.log(result);\n  console.log('C');\n}\nmain();\nconsole.log('D');",
+    "options": [
+      "A B C D",
+      "A D B C",
+      "D A B C",
+      "A B D C"
+    ],
+    "correct_answer": "A D B C",
+    "explanation": "`console.log('A')` runs synchronously. The `await` suspends `main()` and yields control back to the event loop. `console.log('D')` runs next (it is outside `main()`, in the synchronous flow). Once the microtask queue resolves the promise, `main()` resumes and logs `B` then `C`.",
+    "difficulty": "hard"
+  },
+  {
+    "id": "ch-134",
+    "date": "2026-05-07",
+    "topic": "data",
+    "type": "spot-the-bug",
+    "prompt": "A data engineer runs this SQL query and gets unexpected results. What is wrong?",
+    "code_snippet": "SELECT department, AVG(salary)\nFROM employees\nWHERE AVG(salary) > 50000\nGROUP BY department;",
+    "options": [
+      "AVG() cannot be used with WHERE",
+      "Aggregate functions cannot be used in a WHERE clause \u2014 use HAVING instead",
+      "GROUP BY must come before WHERE",
+      "The column alias is missing for AVG(salary)"
+    ],
+    "correct_answer": "Aggregate functions cannot be used in a WHERE clause \u2014 use HAVING instead",
+    "explanation": "`WHERE` filters individual rows before any grouping or aggregation occurs, so aggregate functions like `AVG()` are not valid there. To filter on aggregated results, use `HAVING`: `GROUP BY department HAVING AVG(salary) > 50000`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-135",
+    "date": "2026-05-07",
+    "topic": "software",
+    "type": "spot-the-bug",
+    "prompt": "A developer writes a unit test for a function. What is wrong with this test?",
+    "code_snippet": "function add(a, b) { return a + b; }\n\ntest('add works', () => {\n  // no assertions\n  add(1, 2);\n});",
+    "options": [
+      "The function name 'add' is too short",
+      "The test has no assertions \u2014 it will always pass regardless of what add() returns",
+      "test() should be describe() at the top level",
+      "Arrow functions cannot be used in test callbacks"
+    ],
+    "correct_answer": "The test has no assertions \u2014 it will always pass regardless of what add() returns",
+    "explanation": "A test without assertions is meaningless \u2014 it passes even if `add` throws or returns wrong values. Add `expect(add(1, 2)).toBe(3)`. Tests that always pass give false confidence and are a common sign of inexperienced test authoring.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-136",
+    "date": "2026-05-07",
+    "topic": "ai",
+    "type": "predict-output",
+    "prompt": "You ask an LLM: 'What is the capital of France?' with temperature=0.9. What do you observe across 10 runs?",
+    "options": [
+      "Each run gives a different city \u2014 high temperature means random answers",
+      "All 10 runs return 'Paris' \u2014 factual questions have near-certain token probabilities that temperature barely affects",
+      "The model refuses to answer at high temperature",
+      "The model returns 'Paris' in 5 runs and hallucinates in the other 5"
+    ],
+    "correct_answer": "All 10 runs return 'Paris' \u2014 factual questions have near-certain token probabilities that temperature barely affects",
+    "explanation": "Temperature scales the probability distribution before sampling. For highly certain completions like well-known facts, the correct token has overwhelming probability and remains the most likely choice even at high temperature. Temperature matters most when multiple plausible continuations exist (creative writing, varied phrasing, etc.).",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-137",
+    "date": "2026-05-07",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the time complexity of accessing an element by index in a singly linked list?",
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n\u00b2)"
+    ],
+    "correct_answer": "O(n)",
+    "explanation": "A linked list does not support random access. To reach index k, you must traverse from the head through k pointers. In the worst case (last element) this is O(n). Arrays offer O(1) indexed access because elements are stored contiguously in memory.",
+    "difficulty": "easy"
+  }
+]

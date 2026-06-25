@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-180",
+    "date": "2026-05-14",
+    "topic": "frontend",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between `localStorage` and `sessionStorage` in the browser?",
+    "options": [
+      "They are identical \u2014 different names for the same API",
+      "`localStorage` persists across browser sessions; `sessionStorage` is cleared when the tab or browser is closed",
+      "`sessionStorage` is shared across all tabs; `localStorage` is tab-specific",
+      "`localStorage` is encrypted; `sessionStorage` is not"
+    ],
+    "correct_answer": "`localStorage` persists across browser sessions; `sessionStorage` is cleared when the tab or browser is closed",
+    "explanation": "`localStorage` survives browser restarts \u2014 data stays until explicitly cleared or the user clears browser data. `sessionStorage` is tied to the browser tab/session and is wiped when the tab closes. Both are synchronous, string-only APIs with a ~5MB limit. Neither is suitable for sensitive data \u2014 both are accessible via JS.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-181",
+    "date": "2026-05-14",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "What does a reverse proxy do in a typical web architecture?",
+    "options": [
+      "It redirects HTTP to HTTPS",
+      "It sits in front of backend servers, forwarding client requests to the appropriate server and returning the response \u2014 providing load balancing, SSL termination, and caching",
+      "It proxies requests from the server to external APIs",
+      "It is a backup server that only activates when the primary fails"
+    ],
+    "correct_answer": "It sits in front of backend servers, forwarding client requests to the appropriate server and returning the response \u2014 providing load balancing, SSL termination, and caching",
+    "explanation": "A reverse proxy (nginx, Caddy, AWS ALB) is the single entry point clients connect to. It distributes traffic across multiple backends (load balancing), handles TLS certificates (SSL termination), serves static assets, and can cache responses. Backends are hidden from clients and can be scaled independently.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-182",
+    "date": "2026-05-14",
+    "topic": "backend",
+    "type": "spot-the-bug",
+    "prompt": "A developer writes this to prevent SQL injection. What is still wrong?",
+    "code_snippet": "const query = `SELECT * FROM users WHERE name = '${name.replace(\"'\", \"\\\\'\")}'`;",
+    "options": [
+      "Single quotes cannot appear in SQL strings",
+      "Manual string escaping is error-prone and incomplete \u2014 use parameterised queries / prepared statements instead",
+      "Template literals cannot be used for SQL",
+      "replace() should use replaceAll()"
+    ],
+    "correct_answer": "Manual string escaping is error-prone and incomplete \u2014 use parameterised queries / prepared statements instead",
+    "explanation": "Manual escaping is fragile. It may miss edge cases (different databases have different escaping rules; multi-byte character sequences can bypass na\u00efve escaping). The correct solution is parameterised queries: `db.query('SELECT * FROM users WHERE name = $1', [name])`. The database driver handles all escaping safely.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-183",
+    "date": "2026-05-14",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What is the output of this code?",
+    "code_snippet": "nums = [3, 1, 4, 1, 5, 9, 2, 6]\nprint(sorted(nums))\nprint(nums)",
+    "options": [
+      "[1, 1, 2, 3, 4, 5, 6, 9] and [1, 1, 2, 3, 4, 5, 6, 9]",
+      "[1, 1, 2, 3, 4, 5, 6, 9] and [3, 1, 4, 1, 5, 9, 2, 6]",
+      "[3, 1, 4, 1, 5, 9, 2, 6] and [3, 1, 4, 1, 5, 9, 2, 6]",
+      "Error"
+    ],
+    "correct_answer": "[1, 1, 2, 3, 4, 5, 6, 9] and [3, 1, 4, 1, 5, 9, 2, 6]",
+    "explanation": "`sorted()` returns a new sorted list without modifying the original. `nums.sort()` would sort in place. The original `nums` list is unchanged at `[3, 1, 4, 1, 5, 9, 2, 6]`. This is a common Python gotcha \u2014 know the difference between `sorted()` and `.sort()`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-184",
+    "date": "2026-05-14",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is a monorepo and what is a key advantage?",
+    "options": [
+      "A single very large GitHub repository with no branches",
+      "A repository containing multiple projects or packages \u2014 enabling atomic cross-project changes and shared tooling",
+      "A repository that only one developer can write to",
+      "A backup repository with a single commit"
+    ],
+    "correct_answer": "A repository containing multiple projects or packages \u2014 enabling atomic cross-project changes and shared tooling",
+    "explanation": "A monorepo (e.g. Nx, Turborepo, Bazel) stores multiple related packages or services in one repo. Key benefits: atomic commits across projects (no version juggling), shared linting/CI configs, easier cross-project refactoring. Used by Google, Meta, Microsoft. Trade-off: build times grow without caching/incremental build tooling.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-185",
+    "date": "2026-05-14",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "What is the role of a 'system prompt' in an LLM API call?",
+    "options": [
+      "A message from the user that overrides all other instructions",
+      "A persistent instruction that sets the model's persona, constraints, and behaviour for the entire conversation",
+      "A technical instruction sent by the API server, not visible to users",
+      "A prompt that is only processed once and then discarded"
+    ],
+    "correct_answer": "A persistent instruction that sets the model's persona, constraints, and behaviour for the entire conversation",
+    "explanation": "The system prompt (role: 'system') is processed before the conversation and establishes the model's identity, tone, constraints, and capabilities. It is typically written by the application developer, not the end user. Modern models treat it with higher authority than user messages, though it is not fully tamper-proof against prompt injection.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-186",
+    "date": "2026-05-14",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the purpose of a Union-Find (Disjoint Set Union) data structure?",
+    "options": [
+      "To merge two sorted arrays efficiently",
+      "To track which elements are in the same connected component, supporting union and find operations in near-O(1) time",
+      "To store sets of unique elements with O(1) lookup",
+      "To implement a priority queue"
+    ],
+    "correct_answer": "To track which elements are in the same connected component, supporting union and find operations in near-O(1) time",
+    "explanation": "Union-Find (with path compression and union by rank) supports two operations: `find(x)` \u2014 returns the representative of x's component, and `union(x,y)` \u2014 merges two components. Both run in near-O(1) (amortised). Used in Kruskal's MST, connected components, and cycle detection.",
+    "difficulty": "medium"
+  }
+]

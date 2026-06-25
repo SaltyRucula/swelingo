@@ -1,0 +1,85 @@
+[
+  {
+    "id": "ch-001",
+    "date": "2026-04-18",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "The function below is supposed to return the sum of all numbers in an array. What is wrong with it?",
+    "code_snippet": "function sum(arr) {\n  let total = 0;\n  for (let i = 0; i <= arr.length; i++) {\n    total += arr[i];\n  }\n  return total;\n}",
+    "options": [
+      "The initial value of total should be 1",
+      "The loop condition should be i < arr.length",
+      "It should use forEach instead of for",
+      "The return statement is missing"
+    ],
+    "correct_answer": "The loop condition should be i < arr.length",
+    "explanation": "Using `i <= arr.length` causes the loop to access `arr[arr.length]`, which is `undefined`. Adding `undefined` to a number produces `NaN`. The condition should be `i < arr.length`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-002",
+    "date": "2026-04-18",
+    "topic": "devops",
+    "type": "predict-output",
+    "prompt": "What does the following command print?",
+    "code_snippet": "echo \"Hello World\" | awk '{print $2}'",
+    "options": [
+      "Hello World",
+      "Hello",
+      "World",
+      "Nothing \u2014 syntax error"
+    ],
+    "correct_answer": "World",
+    "explanation": "`awk` splits input by whitespace by default. `$1` is \"Hello\", `$2` is \"World\". So `{print $2}` prints \"World\".",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-003",
+    "date": "2026-04-18",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "A service receives 10,000 requests per second. Each request hits a database. The database can handle 1,000 queries per second. Which pattern best solves this?",
+    "options": [
+      "Vertical scaling the database",
+      "Adding a read-through cache in front of the database",
+      "Switching to a NoSQL database",
+      "Using GraphQL instead of REST"
+    ],
+    "correct_answer": "Adding a read-through cache in front of the database",
+    "explanation": "A read-through cache (e.g. Redis) absorbs repeated reads so only cache misses hit the database. This reduces DB load dramatically without changing the DB itself. Vertical scaling is expensive and has a ceiling; NoSQL or GraphQL alone do not solve throughput limits.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-073",
+    "date": "2026-04-18",
+    "topic": "ai",
+    "type": "spot-the-bug",
+    "prompt": "A developer writes a system prompt to make an LLM always respond in JSON. What is wrong with this instruction?",
+    "code_snippet": "System: \"Please respond in JSON format if possible.\"",
+    "options": [
+      "Nothing \u2014 this is a perfectly valid instruction",
+      "\"if possible\" makes the instruction optional and gives the model an escape hatch to ignore it",
+      "JSON is not a valid response format for language models",
+      "The instruction should be in the user message, not the system prompt"
+    ],
+    "correct_answer": "\"if possible\" makes the instruction optional and gives the model an escape hatch to ignore it",
+    "explanation": "Hedging phrases like \"if possible\", \"try to\", or \"when appropriate\" let the model skip the instruction entirely. Use direct, unambiguous language: \"Always respond with valid JSON. No prose, no markdown \u2014 only a JSON object.\"",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-088",
+    "date": "2026-04-18",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the time complexity of looking up an element by key in a hash map (average case)?",
+    "options": [
+      "O(n)",
+      "O(log n)",
+      "O(1)",
+      "O(n log n)"
+    ],
+    "correct_answer": "O(1)",
+    "explanation": "A hash map computes the key's hash to directly index into a bucket array, giving O(1) average-case lookup. Worst case is O(n) when all keys collide, but with a good hash function and load factor this is rare.",
+    "difficulty": "easy"
+  }
+]

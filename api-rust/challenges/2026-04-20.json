@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-006",
+    "date": "2026-04-20",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this snippet log to the console?",
+    "code_snippet": "const fns = [];\nfor (var i = 0; i < 3; i++) {\n  fns.push(() => console.log(i));\n}\nfns[0]();",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "correct_answer": "3",
+    "explanation": "`var` is function-scoped, not block-scoped. By the time `fns[0]()` is called the loop has finished and `i` is `3`. All three closures share the same `i`. Using `let` instead of `var` would capture a new binding per iteration and log `0`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-007",
+    "date": "2026-04-20",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "Which command shows only the lines that appear in file2.txt but NOT in file1.txt (both files are sorted)?",
+    "options": [
+      "diff file1.txt file2.txt",
+      "comm -13 file1.txt file2.txt",
+      "grep -v -f file1.txt file2.txt",
+      "sort file1.txt file2.txt | uniq -d"
+    ],
+    "correct_answer": "comm -13 file1.txt file2.txt",
+    "explanation": "`comm` compares two sorted files line by line. Column 1 = only in file1, column 2 = only in file2, column 3 = in both. `-1` suppresses col 1, `-3` suppresses col 3, leaving only lines unique to file2.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-008",
+    "date": "2026-04-20",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "Two microservices need to communicate. Service A must not wait for Service B to finish before continuing. Which pattern fits best?",
+    "options": [
+      "Synchronous REST call",
+      "Asynchronous message queue (e.g. RabbitMQ / Kafka)",
+      "Shared database table",
+      "gRPC streaming"
+    ],
+    "correct_answer": "Asynchronous message queue (e.g. RabbitMQ / Kafka)",
+    "explanation": "A message queue decouples the two services: A publishes a message and moves on immediately; B consumes it at its own pace. This prevents A from blocking on B's latency or failures. REST and gRPC are synchronous by default; a shared DB is an anti-pattern that creates tight coupling.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-009",
+    "date": "2026-04-20",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What is the output of the following code?",
+    "code_snippet": "def append_to(element, to=[]):\n    to.append(element)\n    return to\n\nprint(append_to(1))\nprint(append_to(2))",
+    "options": [
+      "[1]\n[2]",
+      "[1]\n[1, 2]",
+      "[1, 2]\n[1, 2]",
+      "Error"
+    ],
+    "correct_answer": "[1]\n[1, 2]",
+    "explanation": "Default mutable arguments in Python are created once when the function is defined, not each time it is called. The list `[]` is shared across all calls. After the first call it contains `[1]`; after the second it contains `[1, 2]`. Use `to=None` and create a new list inside the function to avoid this trap.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-010",
+    "date": "2026-04-20",
+    "topic": "software",
+    "type": "spot-the-bug",
+    "prompt": "A developer wants to create a new branch and switch to it in one command. What is wrong with what they typed?",
+    "code_snippet": "git branch -b feature/login",
+    "options": [
+      "Should be `git checkout -b feature/login`",
+      "Branch names cannot contain slashes",
+      "The `-b` flag is not valid for `git branch`",
+      "Should be `git switch feature/login`"
+    ],
+    "correct_answer": "The `-b` flag is not valid for `git branch`",
+    "explanation": "`git branch` does not accept `-b`. To create and switch in one step use `git checkout -b feature/login` (classic) or `git switch -c feature/login` (modern). `git branch feature/login` alone only creates the branch without switching.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-075",
+    "date": "2026-04-20",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "An LLM has a context window of 8,192 tokens. A developer sends a conversation with 6,000 tokens of history plus a 3,000-token document. What happens?",
+    "options": [
+      "The request succeeds because the limit only applies to the output",
+      "The model automatically summarises older messages to fit within the limit",
+      "The request is rejected or the provider silently truncates the oldest tokens, losing context",
+      "The model processes all 9,000 tokens but charges extra"
+    ],
+    "correct_answer": "The request is rejected or the provider silently truncates the oldest tokens, losing context",
+    "explanation": "Context window limits apply to the total input + output token count. Exceeding the limit results in an API error or silent truncation of the earliest context, which can cause the model to \"forget\" earlier parts of the conversation. Solutions include sliding-window memory, summarisation, or RAG.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-090",
+    "date": "2026-04-20",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "Which data structure gives O(log n) insert, delete, and search, and keeps elements sorted?",
+    "options": [
+      "Hash map",
+      "Unsorted array",
+      "Balanced BST (e.g. Red-Black tree)",
+      "Stack"
+    ],
+    "correct_answer": "Balanced BST (e.g. Red-Black tree)",
+    "explanation": "A balanced binary search tree maintains a height of O(log n), guaranteeing O(log n) for all three operations while keeping elements in sorted order. Hash maps give O(1) average but have no ordering. Arrays are O(n) for insert/delete.",
+    "difficulty": "medium"
+  }
+]

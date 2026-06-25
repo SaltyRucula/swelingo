@@ -1,0 +1,118 @@
+[
+  {
+    "id": "ch-152",
+    "date": "2026-05-10",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this code log?",
+    "code_snippet": "let x = 5;\nconst addX = (n) => n + x;\nx = 10;\nconsole.log(addX(3));",
+    "options": [
+      "8",
+      "13",
+      "15",
+      "NaN"
+    ],
+    "correct_answer": "13",
+    "explanation": "The arrow function captures `x` by reference (it closes over the variable binding, not the value). When `addX(3)` is called, `x` is `10`, so the result is `3 + 10 = 13`. If the closure captured the value at declaration time, it would be `8`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-153",
+    "date": "2026-05-10",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "What does `docker-compose down` do compared to `docker-compose stop`?",
+    "options": [
+      "They are identical",
+      "`stop` halts containers but keeps them; `down` stops and removes containers, networks, and volumes created by `up`",
+      "`down` only works on named services; `stop` works on all services",
+      "`stop` removes images; `down` only removes containers"
+    ],
+    "correct_answer": "`stop` halts containers but keeps them; `down` stops and removes containers, networks, and volumes created by `up`",
+    "explanation": "`docker-compose stop` gracefully stops running containers but preserves them so you can restart with `docker-compose start`. `docker-compose down` stops AND removes the containers and networks (and volumes with `-v`). Use `stop` when you want to pause and resume; use `down` when you want a clean teardown.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-154",
+    "date": "2026-05-10",
+    "topic": "backend",
+    "type": "spot-the-bug",
+    "prompt": "A developer writes this SQL query to find users without orders. What is wrong?",
+    "code_snippet": "SELECT u.id, u.name\nFROM users u\nINNER JOIN orders o ON u.id = o.user_id\nWHERE o.user_id IS NULL;",
+    "options": [
+      "INNER JOIN with WHERE IS NULL will never return rows \u2014 use LEFT JOIN instead",
+      "IS NULL should be = NULL",
+      "The alias `u` is not allowed in PostgreSQL",
+      "WHERE must come before JOIN"
+    ],
+    "correct_answer": "INNER JOIN with WHERE IS NULL will never return rows \u2014 use LEFT JOIN instead",
+    "explanation": "INNER JOIN only returns rows where a match exists in both tables. If a user has no orders, there is no matching order row \u2014 so the user never appears in the INNER JOIN result. To find non-matches, use LEFT JOIN and then filter where the right-side key IS NULL: `LEFT JOIN orders o ON u.id = o.user_id WHERE o.user_id IS NULL`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-155",
+    "date": "2026-05-10",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between `map` and `flatMap` in Python (or most languages)?",
+    "options": [
+      "They are identical \u2014 `flatMap` is just an alias",
+      "`map` applies a function to each element; `flatMap` applies a function that returns a list to each element, then flattens the results into a single list",
+      "`flatMap` applies the function in reverse order",
+      "`map` works on lists; `flatMap` only works on sets"
+    ],
+    "correct_answer": "`map` applies a function to each element; `flatMap` applies a function that returns a list to each element, then flattens the results into a single list",
+    "explanation": "`map(f, [1,2,3])` \u2192 `[f(1), f(2), f(3)]`. If `f` returns a list, you get a list of lists. `flatMap` (or `concatMap`) flattens one level: `flatMap(lambda x: [x, x*2], [1,2])` \u2192 `[1, 2, 2, 4]`. In Python use `itertools.chain.from_iterable(map(f, lst))`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-156",
+    "date": "2026-05-10",
+    "topic": "software",
+    "type": "spot-the-bug",
+    "prompt": "A developer commits directly to `main` in a team project. What best practice does this violate?",
+    "code_snippet": "git checkout main\ngit add .\ngit commit -m 'fix bug'\ngit push origin main",
+    "options": [
+      "The commit message is too short",
+      "Bypasses code review via pull requests \u2014 changes should go through a feature branch and PR",
+      "git push requires --force for main",
+      "main should be renamed to master"
+    ],
+    "correct_answer": "Bypasses code review via pull requests \u2014 changes should go through a feature branch and PR",
+    "explanation": "Committing directly to `main` skips peer review, CI checks, and branch protection rules. In team projects, changes should flow through a feature branch \u2192 pull request \u2192 review \u2192 merge. Most repositories protect `main` so direct pushes are rejected. Code review catches bugs, shares knowledge, and maintains quality.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-157",
+    "date": "2026-05-10",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "What is 'hallucination' in the context of LLMs?",
+    "options": [
+      "The model generating very long responses",
+      "The model confidently producing false or fabricated information that sounds plausible",
+      "The model refusing to answer questions",
+      "The model repeating the same sentence multiple times"
+    ],
+    "correct_answer": "The model confidently producing false or fabricated information that sounds plausible",
+    "explanation": "LLM hallucination refers to the model generating text that is factually incorrect, fabricated, or inconsistent with reality \u2014 but presented with the same confident fluency as correct outputs. Common examples: fake citations, non-existent APIs, made-up statistics. Mitigations include grounding with RAG, asking the model to cite sources, and using structured verification steps.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-158",
+    "date": "2026-05-10",
+    "topic": "dsa",
+    "type": "predict-output",
+    "prompt": "What is printed by this code?",
+    "code_snippet": "def fib(n, memo={}):\n    if n <= 1:\n        return n\n    if n not in memo:\n        memo[n] = fib(n-1) + fib(n-2)\n    return memo[n]\n\nprint(fib(5))",
+    "options": [
+      "5",
+      "8",
+      "3",
+      "RecursionError"
+    ],
+    "correct_answer": "5",
+    "explanation": "The memoised Fibonacci function computes: fib(0)=0, fib(1)=1, fib(2)=1, fib(3)=2, fib(4)=3, fib(5)=5. The `memo` dict caches sub-results so each is computed only once (O(n) time instead of exponential). Note: using a mutable default argument for memo is a common pattern but has the same pitfall as any mutable default \u2014 it persists between calls.",
+    "difficulty": "medium"
+  }
+]

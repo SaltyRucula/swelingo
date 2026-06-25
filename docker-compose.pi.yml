@@ -1,0 +1,91 @@
+# docker-compose.pi.yml — Raspberry Pi 5 (arm64) deployment behind a Cloudflare Tunnel.
+#
+# How it works:
+#   Internet ──HTTPS──> Cloudflare edge ──outbound tunnel──> cloudflared ──http──> web (nginx:80)
+#                                                                                    └─proxy─> api:3001
+#
+# Cloudflare terminates TLS at the edge and reaches the Pi through an
+# OUTBOUND-only tunnel, so the Pi needs:
+#   - NO open inbound ports / port-forwarding
+#   - NO public IP
+#   - NO Let's Encrypt certificates
+#
+# Every base image here is multi-arch and runs natively on the Pi's arm64 CPU.
+#
+# Usage on the Pi (from the repo root):
+#   cp .env.pi.example .env     # then fill in the values
+#   docker compose -f docker-compose.pi.yml up -d --build
+#
+# See DEPLOY_RASPBERRY_PI.md for the full walkthrough.
+
+services:
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: sweduolingo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Rust API ────────────────────────────────────────────────────────────────
+  api:
+    build:
+      context: ./api-rust
+    environment:
+      - PORT=3001
+      - DATABASE_URL=postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/sweduolingo
+      - API_BASE_URL=${API_BASE_URL}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - JWT_SECRET=${JWT_SECRET}
+      - WEB_URL=${WEB_URL}
+      - EXPO_PUBLIC_API_URL=${EXPO_PUBLIC_API_URL}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./api-rust/challenges:/app/challenges:ro
+    restart: unless-stopped
+
+  # ── Expo web (nginx) ──────────────────────────────────────────────────────────
+  # Plain HTTP only — Cloudflare provides TLS. The tunnel nginx config is mounted
+  # over the SSL config that Dockerfile.web bakes in, so no rebuild is needed to
+  # switch between the public (SSL) and tunnel (HTTP) setups.
+  #
+  # `expose` (not `ports`) keeps nginx reachable ONLY from the Docker network —
+  # i.e. only cloudflared can reach it, never the LAN/internet directly.
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+      args:
+        - EXPO_PUBLIC_API_URL=${EXPO_PUBLIC_API_URL}
+    volumes:
+      - ./nginx.tunnel.conf:/etc/nginx/conf.d/default.conf:ro
+    expose:
+      - "80"
+    restart: unless-stopped
+    depends_on:
+      - api
+
+  # ── Cloudflare Tunnel ─────────────────────────────────────────────────────────
+  # Token-based (dashboard-managed) tunnel. Create the tunnel in the Cloudflare
+  # Zero Trust dashboard, copy its token into TUNNEL_TOKEN, and add a Public
+  # Hostname that routes your domain to the service URL:  http://web:80
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    depends_on:
+      - web
+
+volumes:
+  pgdata:

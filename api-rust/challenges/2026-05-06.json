@@ -1,0 +1,115 @@
+[
+  {
+    "id": "ch-124",
+    "date": "2026-05-06",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This code tries to deep clone an object. What is the problem?",
+    "code_snippet": "const original = { a: 1, b: { c: 2 } };\nconst clone = Object.assign({}, original);\nclone.b.c = 99;\nconsole.log(original.b.c);",
+    "options": [
+      "Object.assign() is deprecated",
+      "Object.assign() performs a shallow copy \u2014 nested objects are still shared by reference",
+      "The console will log undefined",
+      "Object.assign() requires a third argument"
+    ],
+    "correct_answer": "Object.assign() performs a shallow copy \u2014 nested objects are still shared by reference",
+    "explanation": "`Object.assign()` copies only the top-level properties. The nested object `b` is copied by reference, so `clone.b` and `original.b` point to the same object. Modifying `clone.b.c` also changes `original.b.c`. For a deep clone use `structuredClone(original)` (modern) or `JSON.parse(JSON.stringify(original))` (lossy).",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-125",
+    "date": "2026-05-06",
+    "topic": "devops",
+    "type": "predict-output",
+    "prompt": "What does `docker ps` show by default?",
+    "options": [
+      "All containers, including stopped ones",
+      "Only currently running containers",
+      "All Docker images on the host",
+      "Docker daemon logs"
+    ],
+    "correct_answer": "Only currently running containers",
+    "explanation": "`docker ps` lists only running containers. Add `-a` (`--all`) to include stopped containers. `docker images` lists images. `docker logs <container>` shows container output. This is a common gotcha when debugging a container that has crashed \u2014 use `docker ps -a` to see it.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-126",
+    "date": "2026-05-06",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "You need to rate-limit an API to 100 requests per minute per user. Which approach is most appropriate for a distributed system with multiple API servers?",
+    "options": [
+      "An in-memory counter in each API server process",
+      "A shared Redis counter with a sliding window or token bucket",
+      "A database row per user with a request count column",
+      "A middleware that counts requests and resets every minute using cron"
+    ],
+    "correct_answer": "A shared Redis counter with a sliding window or token bucket",
+    "explanation": "In-memory counters are per-process \u2014 if traffic is spread across 10 servers, each allows 100 req/min, effectively allowing 1,000. A shared Redis counter (using atomic INCR + EXPIRE or Lua scripts) is visible to all servers simultaneously. Redis is fast enough to be in the hot path for every request.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-127",
+    "date": "2026-05-06",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between `GROUP BY` and `HAVING` in SQL?",
+    "options": [
+      "They are interchangeable \u2014 use either to filter rows",
+      "`GROUP BY` aggregates rows; `HAVING` filters those aggregated groups (like WHERE but for aggregates)",
+      "`HAVING` filters rows before aggregation; `GROUP BY` filters after",
+      "`GROUP BY` only works with COUNT; `HAVING` works with any aggregate"
+    ],
+    "correct_answer": "`GROUP BY` aggregates rows; `HAVING` filters those aggregated groups (like WHERE but for aggregates)",
+    "explanation": "`WHERE` filters individual rows before grouping. `GROUP BY` collapses rows into groups based on a column. `HAVING` then filters those groups \u2014 you can use aggregate functions like `COUNT(*) > 5` in a `HAVING` clause but not in `WHERE`. This distinction is a classic SQL interview topic.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-128",
+    "date": "2026-05-06",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is the purpose of a `CODEOWNERS` file in a GitHub repository?",
+    "options": [
+      "It lists people who are banned from pushing to main",
+      "It automatically assigns reviewers to PRs based on which files were changed",
+      "It defines the repository's license owner",
+      "It lists contributors who own copyright over the code"
+    ],
+    "correct_answer": "It automatically assigns reviewers to PRs based on which files were changed",
+    "explanation": "A `CODEOWNERS` file maps file paths to GitHub users or teams. When a PR changes a file covered by a CODEOWNERS rule, those owners are automatically added as required reviewers. This ensures domain experts review changes to the code they maintain.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-129",
+    "date": "2026-05-06",
+    "topic": "ai",
+    "type": "architecture-take",
+    "prompt": "You're building an AI customer support agent. It needs to look up orders, issue refunds, and answer FAQ questions. What is the best architecture?",
+    "options": [
+      "One massive system prompt describing all possible actions",
+      "Three separate LLM calls chained in sequence regardless of the question",
+      "A router that classifies intent, then dispatches to specialised tools or prompts",
+      "Rely solely on the LLM's training data to answer all questions"
+    ],
+    "correct_answer": "A router that classifies intent, then dispatches to specialised tools or prompts",
+    "explanation": "A router (either an LLM classifier or rule-based) identifies the user's intent and routes to the appropriate handler: a database lookup tool for order status, a refund API tool for refunds, or a RAG retrieval for FAQs. This is the tool-use / function-calling pattern. It is more reliable and cheaper than loading every capability into one giant prompt.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-130",
+    "date": "2026-05-06",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "You need to detect if a linked list has a cycle. What is the optimal approach in O(n) time and O(1) space?",
+    "options": [
+      "Store all visited nodes in a hash set and check for duplicates",
+      "Floyd's tortoise and hare algorithm \u2014 two pointers moving at different speeds",
+      "Reverse the list and compare it to the original",
+      "Count the nodes and compare to the expected length"
+    ],
+    "correct_answer": "Floyd's tortoise and hare algorithm \u2014 two pointers moving at different speeds",
+    "explanation": "Floyd's algorithm uses a slow pointer (moves 1 step) and a fast pointer (moves 2 steps). If there is a cycle, the fast pointer will eventually lap the slow one and they will meet. No extra memory is needed. The hash set approach is O(n) time but O(n) space.",
+    "difficulty": "medium"
+  }
+]

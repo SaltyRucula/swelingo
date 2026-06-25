@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-063",
+    "date": "2026-05-01",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This function fetches data for multiple IDs. What is the performance problem?",
+    "code_snippet": "async function fetchAll(ids) {\n  const results = [];\n  for (const id of ids) {\n    const data = await fetch(`/api/${id}`).then(r => r.json());\n    results.push(data);\n  }\n  return results;\n}",
+    "options": [
+      "`.then()` cannot be mixed with `async/await`",
+      "Requests are sequential \u2014 each awaits the previous; use `Promise.all` to parallelise",
+      "`for...of` does not support async operations",
+      "`results.push` is not compatible with async data"
+    ],
+    "correct_answer": "Requests are sequential \u2014 each awaits the previous; use `Promise.all` to parallelise",
+    "explanation": "`await` inside a `for` loop blocks until each fetch completes before the next starts. For independent requests, fire them all at once: `return Promise.all(ids.map(id => fetch(`/api/${id}`).then(r => r.json())))`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-064",
+    "date": "2026-05-01",
+    "topic": "devops",
+    "type": "spot-the-bug",
+    "prompt": "What security problem does this command introduce?",
+    "code_snippet": "chmod 777 /etc/passwd",
+    "options": [
+      "Syntax error \u2014 chmod only accepts symbolic permissions",
+      "Gives every user read, write, and execute access to the password database",
+      "`/etc/passwd` does not exist on modern Linux",
+      "777 is not a valid octal permission value"
+    ],
+    "correct_answer": "Gives every user read, write, and execute access to the password database",
+    "explanation": "`/etc/passwd` contains user account information. Making it world-writable (`w` for others) lets any local user modify user accounts \u2014 a critical security vulnerability. The correct permission is `644` (root rw, group r, others r).",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-065",
+    "date": "2026-05-01",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "Which HTTP method is designed to be safe and idempotent \u2014 retrieving data without changing server state?",
+    "options": [
+      "POST",
+      "GET",
+      "PUT",
+      "DELETE"
+    ],
+    "correct_answer": "GET",
+    "explanation": "`GET` is defined as safe (no side effects) and idempotent (multiple identical requests produce the same result). This is why browsers can cache and re-fetch GET responses safely. POST creates, PUT/PATCH update, DELETE removes \u2014 all modify server state.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-066",
+    "date": "2026-05-01",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between `is` and `==` in Python?",
+    "options": [
+      "They are always equivalent",
+      "`is` checks object identity (same memory address); `==` checks value equality",
+      "`is` only works for integers; `==` works for any type",
+      "`==` raises TypeError for None comparisons"
+    ],
+    "correct_answer": "`is` checks object identity (same memory address); `==` checks value equality",
+    "explanation": "Two objects can be equal (`==`) without being identical (`is`). E.g. `[1,2] == [1,2]` is `True` but `[1,2] is [1,2]` is `False`. Use `is` only for singletons like `None` (`x is None`). Never use `is` to compare strings or numbers in general.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-067",
+    "date": "2026-05-01",
+    "topic": "software",
+    "type": "predict-output",
+    "prompt": "What does `git fetch origin` do, compared to `git pull origin main`?",
+    "options": [
+      "Downloads and automatically merges remote changes into the current branch",
+      "Downloads remote commits but does NOT update your local working branch",
+      "Pushes local commits to the remote",
+      "Resets the local branch to exactly match the remote"
+    ],
+    "correct_answer": "Downloads remote commits but does NOT update your local working branch",
+    "explanation": "`git fetch` updates remote-tracking refs (e.g. `origin/main`) without touching your local branch or working directory. `git pull` is `fetch` + `merge` (or `rebase`). `fetch` alone lets you inspect changes before integrating them.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-086",
+    "date": "2026-05-01",
+    "topic": "ai",
+    "type": "architecture-take",
+    "prompt": "A team ships an LLM feature and wants to know if a prompt change improved quality. What is the most rigorous way to measure this?",
+    "options": [
+      "Ask the engineering team if the new responses feel better",
+      "Count tokens in the response \u2014 fewer tokens means better quality",
+      "Build an eval set with expected outputs and automatically score both prompt versions against it",
+      "Deploy the new prompt and wait to see if support tickets decrease"
+    ],
+    "correct_answer": "Build an eval set with expected outputs and automatically score both prompt versions against it",
+    "explanation": "Systematic LLM evaluation requires a curated dataset of inputs with expected outputs or quality criteria, plus automated scoring (exact match, LLM-as-judge, task completion). Vibes-based review is biased and does not scale. Token count is not a quality signal. A/B tests in production are complementary but slow.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-101",
+    "date": "2026-05-01",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What technique does dynamic programming use to avoid redundant computation?",
+    "options": [
+      "Randomisation",
+      "Memoisation or tabulation of subproblem results",
+      "Divide and conquer without overlapping subproblems",
+      "Greedy selection of the locally optimal choice"
+    ],
+    "correct_answer": "Memoisation or tabulation of subproblem results",
+    "explanation": "DP solves each subproblem once and stores the result (memoisation = top-down, tabulation = bottom-up). When the same subproblem recurs it is looked up in O(1) instead of recomputed. This works when the problem has overlapping subproblems and optimal substructure.",
+    "difficulty": "easy"
+  }
+]

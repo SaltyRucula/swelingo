@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-018",
+    "date": "2026-04-22",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does the following snippet log?",
+    "code_snippet": "console.log(typeof null);",
+    "options": [
+      "\"null\"",
+      "\"undefined\"",
+      "\"object\"",
+      "\"boolean\""
+    ],
+    "correct_answer": "\"object\"",
+    "explanation": "`typeof null` returns `\"object\"` \u2014 a well-known historical bug in JavaScript that was never fixed for backwards compatibility. `null` is not an object; always use strict equality (`=== null`) to check for null.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-019",
+    "date": "2026-04-22",
+    "topic": "devops",
+    "type": "spot-the-bug",
+    "prompt": "A developer wants to recursively delete all `.log` files in the current directory. What is dangerous about this command?",
+    "code_snippet": "rm -rf *.log /",
+    "options": [
+      "`.log` is not a valid glob pattern",
+      "The space between `*.log` and `/` makes it delete the root filesystem",
+      "`-rf` is not a valid flag for `rm`",
+      "It only deletes one level deep"
+    ],
+    "correct_answer": "The space between `*.log` and `/` makes it delete the root filesystem",
+    "explanation": "`rm -rf *.log /` passes two arguments: `*.log` (matched files) and `/` (the root directory). rm will delete both. The intended command was probably `rm -rf **/*.log`. This is one of the most dangerous shell typos possible.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-020",
+    "date": "2026-04-22",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "You need to store session data that expires after 30 minutes of inactivity and must be accessible across multiple API servers. Which storage is most appropriate?",
+    "options": [
+      "A local file on each server",
+      "An in-memory variable in the API process",
+      "A shared Redis instance with TTL",
+      "A PostgreSQL table with a `last_active` column"
+    ],
+    "correct_answer": "A shared Redis instance with TTL",
+    "explanation": "Redis supports per-key TTL natively and resets it on access (`GETEX`). It is in-memory (fast) and shared across all API servers. Local files and in-process memory are not shared across servers. PostgreSQL works but requires a background job to expire rows and is slower for hot session lookups.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-021",
+    "date": "2026-04-22",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What is printed by the following code?",
+    "code_snippet": "x = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)",
+    "options": [
+      "[1, 2, 3]",
+      "[1, 2, 3, 4]",
+      "[4]",
+      "Error"
+    ],
+    "correct_answer": "[1, 2, 3, 4]",
+    "explanation": "In Python, `y = x` does not copy the list \u2014 both `x` and `y` point to the same object in memory. Mutating through `y` (with `.append`) is visible via `x`. To get an independent copy use `y = x.copy()` or `y = x[:]`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-022",
+    "date": "2026-04-22",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "Your team uses feature branches. A teammate's branch has diverged from `main` and has conflicts. What is the difference between `git merge main` and `git rebase main` run from the feature branch?",
+    "options": [
+      "They are identical \u2014 both bring main's changes in",
+      "Merge creates a merge commit preserving history; rebase replays commits on top of main producing a linear history",
+      "Rebase is safer because it never overwrites commits",
+      "Merge only works if there are no conflicts"
+    ],
+    "correct_answer": "Merge creates a merge commit preserving history; rebase replays commits on top of main producing a linear history",
+    "explanation": "`git merge main` creates a new merge commit that joins both histories, preserving the exact sequence of events. `git rebase main` re-applies the feature branch commits one by one on top of `main`, rewriting their SHAs to produce a clean linear history. Rebase makes `git log` easier to read but rewrites history \u2014 never rebase commits that have been pushed to a shared branch.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-077",
+    "date": "2026-04-22",
+    "topic": "ai",
+    "type": "architecture-take",
+    "prompt": "A team wants an LLM to always respond in a specific formal tone and use company-specific terminology. What is the most cost-effective first approach?",
+    "options": [
+      "Fine-tune the base model on thousands of company documents",
+      "Train a custom model from scratch with company data",
+      "Write a detailed system prompt with several few-shot examples of the desired tone and vocabulary",
+      "Switch to a smaller, cheaper model and accept lower quality"
+    ],
+    "correct_answer": "Write a detailed system prompt with several few-shot examples of the desired tone and vocabulary",
+    "explanation": "A well-crafted system prompt with few-shot examples reliably shapes tone and style without the cost, time, or data labelling overhead of fine-tuning. Fine-tuning becomes worthwhile when the desired behaviour cannot be expressed in a prompt (e.g. injecting new factual knowledge) or when inference costs must be reduced at high volume.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-092",
+    "date": "2026-04-22",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "You need to find the shortest path between two nodes in an unweighted graph. Which algorithm is the right choice?",
+    "options": [
+      "Depth-First Search (DFS)",
+      "Breadth-First Search (BFS)",
+      "Dijkstra's algorithm",
+      "Binary search"
+    ],
+    "correct_answer": "Breadth-First Search (BFS)",
+    "explanation": "BFS explores nodes level by level, so the first time it reaches the destination it has taken the fewest edges \u2014 the shortest path in an unweighted graph. DFS does not guarantee shortest path. Dijkstra handles weighted graphs.",
+    "difficulty": "easy"
+  }
+]

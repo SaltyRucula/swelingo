@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-194",
+    "date": "2026-05-16",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this code log?",
+    "code_snippet": "const obj = {};\nobj.foo = 'bar';\nObject.freeze(obj);\nobj.foo = 'baz';\nconsole.log(obj.foo);",
+    "options": [
+      "bar",
+      "baz",
+      "undefined",
+      "TypeError"
+    ],
+    "correct_answer": "bar",
+    "explanation": "`Object.freeze()` prevents any changes to the object's properties. The assignment `obj.foo = 'baz'` silently fails in non-strict mode (throws in strict mode). `obj.foo` remains `'bar'`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-195",
+    "date": "2026-05-16",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "What is the purpose of `docker build --no-cache`?",
+    "options": [
+      "Skips the network during build",
+      "Forces Docker to rebuild every layer from scratch, ignoring cached layers",
+      "Removes all unused Docker images",
+      "Prevents the image from being cached in the registry"
+    ],
+    "correct_answer": "Forces Docker to rebuild every layer from scratch, ignoring cached layers",
+    "explanation": "Docker caches each layer to speed up builds. `--no-cache` bypasses all cached layers and re-executes every instruction. Useful when a `RUN` command fetches external content (e.g. `apt-get update`) that may have changed but whose cache key has not. It is slower but guarantees a fresh build.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-196",
+    "date": "2026-05-16",
+    "topic": "backend",
+    "type": "predict-output",
+    "prompt": "A client sends a `DELETE /users/123` request. The user exists and is deleted. What is the correct status code for subsequent DELETE requests to the same URL?",
+    "options": [
+      "200 OK",
+      "404 Not Found",
+      "204 No Content",
+      "Both 404 and 204 are acceptable \u2014 idempotency allows either"
+    ],
+    "correct_answer": "Both 404 and 204 are acceptable \u2014 idempotency allows either",
+    "explanation": "DELETE is idempotent \u2014 repeating it should have the same net effect (the resource stays deleted). RFC 7231 allows returning 404 on subsequent DELETEs (resource no longer exists) or 204 No Content (already gone, request still 'succeeded'). Many APIs return 404 after the first delete, but both are correct depending on your design.",
+    "difficulty": "hard"
+  },
+  {
+    "id": "ch-197",
+    "date": "2026-05-16",
+    "topic": "data",
+    "type": "spot-the-bug",
+    "prompt": "A data engineer writes this Pandas code to find missing values. What is wrong?",
+    "code_snippet": "import pandas as pd\ndf = pd.DataFrame({'a': [1, None, 3], 'b': [4, 5, None]})\nmissing = df[df == None]\nprint(missing.sum())",
+    "options": [
+      "None cannot be stored in a DataFrame",
+      "Comparing with `== None` does not work for NaN/None in pandas \u2014 use `df.isnull()` or `df.isna()`",
+      "sum() does not count missing values",
+      "The DataFrame constructor syntax is wrong"
+    ],
+    "correct_answer": "Comparing with `== None` does not work for NaN/None in pandas \u2014 use `df.isnull()` or `df.isna()`",
+    "explanation": "In Python, `None == None` is `True`, but pandas converts `None` to `NaN` (float) for numeric columns. `NaN == NaN` is `False` by IEEE 754. `df == None` returns all-False for NaN cells. The correct approach is `df.isnull()` which returns `True` for both `None` and `NaN`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-198",
+    "date": "2026-05-16",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is dependency injection and why is it useful?",
+    "options": [
+      "Installing npm packages automatically",
+      "Passing dependencies (services, objects) into a class from the outside rather than constructing them internally \u2014 enables testing and loose coupling",
+      "Injecting SQL into database queries",
+      "Adding new dependencies to package.json at runtime"
+    ],
+    "correct_answer": "Passing dependencies (services, objects) into a class from the outside rather than constructing them internally \u2014 enables testing and loose coupling",
+    "explanation": "Instead of `class OrderService { db = new Database() }`, you inject: `class OrderService { constructor(db) { this.db = db } }`. In tests, you pass a mock DB. In production, you pass the real one. DI decouples classes from their dependencies, making the code more modular, testable, and configurable.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-199",
+    "date": "2026-05-16",
+    "topic": "ai",
+    "type": "predict-output",
+    "prompt": "You ask an LLM to summarise a 50-page PDF. You paste all the text into the prompt. The model's context window is 128k tokens. What is the risk?",
+    "options": [
+      "No risk \u2014 128k tokens is always enough for any PDF",
+      "The model may lose focus on middle sections ('lost in the middle' phenomenon) even though the text fits in the context window",
+      "PDFs cannot be pasted as text",
+      "The API will reject the request immediately"
+    ],
+    "correct_answer": "The model may lose focus on middle sections ('lost in the middle' phenomenon) even though the text fits in the context window",
+    "explanation": "Research shows LLMs perform better at recalling information from the beginning and end of a long context ('U-shaped recall'). Information in the middle of a very long prompt tends to get less attention. For long documents, consider chunking + multi-step summarisation, or hierarchical summarisation.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-200",
+    "date": "2026-05-16",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the time complexity of checking whether a number n is prime using trial division up to \u221an?",
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(\u221an)",
+      "O(n)"
+    ],
+    "correct_answer": "O(\u221an)",
+    "explanation": "For each candidate divisor from 2 to \u221an, you check if it divides n. Any factor larger than \u221an must pair with one smaller than \u221an, so checking up to \u221an is sufficient. The number of checks is \u221an, giving O(\u221an) complexity. The Sieve of Eratosthenes can check many numbers more efficiently.",
+    "difficulty": "medium"
+  }
+]

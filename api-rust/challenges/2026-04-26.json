@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-038",
+    "date": "2026-04-26",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This code should filter only even numbers. What is wrong?",
+    "code_snippet": "const nums = [1, 2, 3, 4, 5];\nconst evens = nums.filter(n => n % 2);\nconsole.log(evens);",
+    "options": [
+      "Should use `map` instead of `filter`",
+      "`n % 2` is truthy for odd numbers \u2014 should be `n % 2 === 0`",
+      "Arrow functions cannot be used inside `filter`",
+      "The modulo operator does not work on arrays"
+    ],
+    "correct_answer": "`n % 2` is truthy for odd numbers \u2014 should be `n % 2 === 0`",
+    "explanation": "`n % 2` returns `1` (truthy) for odd numbers and `0` (falsy) for even numbers. So the filter keeps the odds, not the evens. Fix: `n => n % 2 === 0`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-039",
+    "date": "2026-04-26",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "Which command recursively finds all `.log` files in the current directory tree?",
+    "options": [
+      "ls -r *.log",
+      "find . -name \"*.log\"",
+      "grep -r \".log\" .",
+      "locate *.log"
+    ],
+    "correct_answer": "find . -name \"*.log\"",
+    "explanation": "`find . -name \"*.log\"` recursively descends from `.` and prints every file matching the glob. `ls` is not recursive by default. `grep -r` searches file contents, not names. `locate` queries a prebuilt index that may miss new files.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-040",
+    "date": "2026-04-26",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "Which REST endpoint design is most correct for partially updating a specific user?",
+    "options": [
+      "POST /updateUser/123",
+      "PATCH /users/123",
+      "GET /users/123/update",
+      "PUT /updateProfile?id=123"
+    ],
+    "correct_answer": "PATCH /users/123",
+    "explanation": "REST encodes the resource in the URL path (`/users/123`) and the action in the HTTP method. `PATCH` signals a partial update. Verbs in paths (`updateUser`, `updateProfile`) violate REST conventions, and `GET` must not have side effects.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-041",
+    "date": "2026-04-26",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What happens when you run this code?",
+    "code_snippet": "s = \"hello\"\ns[0] = \"H\"\nprint(s)",
+    "options": [
+      "\"Hello\"",
+      "\"hello\"",
+      "TypeError: 'str' object does not support item assignment",
+      "AttributeError"
+    ],
+    "correct_answer": "TypeError: 'str' object does not support item assignment",
+    "explanation": "Python strings are immutable \u2014 you cannot change a character in place. To get `\"Hello\"` use: `s = 'H' + s[1:]` or `s.replace('h', 'H', 1)`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-042",
+    "date": "2026-04-26",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "You pushed a bad commit to a shared `main` branch that teammates have already pulled. What is the safest fix?",
+    "options": [
+      "Force-push `git reset --hard HEAD~1` to remove the commit",
+      "`git revert HEAD` and push the new revert commit",
+      "Delete the remote branch and recreate it",
+      "Ask everyone to run `git reset --hard`"
+    ],
+    "correct_answer": "`git revert HEAD` and push the new revert commit",
+    "explanation": "`git revert` creates a new commit that undoes the bad changes, preserving full history. Other people's clones stay valid. Force-pushing rewrites history and breaks everyone else's local checkouts \u2014 never do this on a shared branch.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-081",
+    "date": "2026-04-26",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "An LLM gives the wrong answer to a multi-step maths problem. Which simple prompt change most reliably improves reasoning accuracy?",
+    "code_snippet": "Prompt: \"What is 17% of 348? Answer:\"",
+    "options": [
+      "Switch to a larger model",
+      "Set temperature to 0",
+      "Add \"Think step by step\" before asking for the final answer",
+      "Provide the percentage formula in the prompt"
+    ],
+    "correct_answer": "Add \"Think step by step\" before asking for the final answer",
+    "explanation": "Chain-of-thought (CoT) prompting instructs the model to reason through intermediate steps before producing the final answer. This dramatically improves accuracy on arithmetic and multi-step reasoning because the model allocates computation to each step rather than jumping directly to the output.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-096",
+    "date": "2026-04-26",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What property must a graph have for topological sort to be applicable?",
+    "options": [
+      "It must be undirected",
+      "It must be a Directed Acyclic Graph (DAG)",
+      "It must be a complete graph",
+      "It must be a tree"
+    ],
+    "correct_answer": "It must be a Directed Acyclic Graph (DAG)",
+    "explanation": "Topological sort produces a linear ordering of vertices such that every directed edge u\u2192v has u before v. This is only possible if the graph has no cycles \u2014 i.e. it is a DAG. A cycle would create a contradiction in the ordering.",
+    "difficulty": "medium"
+  }
+]

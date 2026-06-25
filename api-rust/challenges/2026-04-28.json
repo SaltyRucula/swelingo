@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-048",
+    "date": "2026-04-28",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This promise is rejected but there is no error handler. What is the issue?",
+    "code_snippet": "const p = new Promise((resolve, reject) => {\n  reject(new Error('Failed'));\n});\np.then(value => console.log(value));",
+    "options": [
+      "`.then()` cannot be called on a rejected promise",
+      "No `.catch()` or rejection handler \u2014 causes an unhandled promise rejection",
+      "Promises must use `async/await`, not `new Promise`",
+      "The `reject` callback should `throw` instead of being called directly"
+    ],
+    "correct_answer": "No `.catch()` or rejection handler \u2014 causes an unhandled promise rejection",
+    "explanation": "A rejected promise with no rejection handler causes an unhandled promise rejection warning (and may crash Node.js). Fix: add `.catch(err => ...)` or pass a second function to `.then(onFulfilled, onRejected)`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-049",
+    "date": "2026-04-28",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "You want to see which process is listening on port 8080 on Linux. Which command works?",
+    "options": [
+      "ss -tlnp | grep 8080 (or netstat -tlnp | grep 8080)",
+      "ps aux | grep 8080",
+      "ping localhost:8080",
+      "chmod 8080"
+    ],
+    "correct_answer": "ss -tlnp | grep 8080 (or netstat -tlnp | grep 8080)",
+    "explanation": "`ss` (socket statistics) and `netstat` show which processes are bound to which ports. `ps` lists processes by PID but not port. `ping` checks ICMP reachability, not TCP ports. `chmod` sets file permissions.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-050",
+    "date": "2026-04-28",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "What HTTP status code should a well-designed API return when a required request field is missing?",
+    "options": [
+      "200 OK",
+      "400 Bad Request",
+      "404 Not Found",
+      "500 Internal Server Error"
+    ],
+    "correct_answer": "400 Bad Request",
+    "explanation": "400 means the server cannot process the request due to a client error (malformed syntax, invalid data, missing fields). 404 is for resources that don't exist. 500 is for unexpected server-side failures. Returning 200 with an error body is an anti-pattern.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-051",
+    "date": "2026-04-28",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What is printed?",
+    "code_snippet": "a = [1, 2, 3]\nb = a[:]\nb.append(4)\nprint(a)",
+    "options": [
+      "[1, 2, 3]",
+      "[1, 2, 3, 4]",
+      "[4]",
+      "Error"
+    ],
+    "correct_answer": "[1, 2, 3]",
+    "explanation": "`a[:]` creates a shallow copy \u2014 `b` is a new list object with the same values. Mutating `b` with `.append` does not affect `a`. Compare with `b = a` (same reference), which would cause `a` to show `[1, 2, 3, 4]`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-052",
+    "date": "2026-04-28",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is a `git tag` used for?",
+    "options": [
+      "Marking a specific commit as a named release or milestone",
+      "Creating a copy of a branch for safe experimentation",
+      "Temporarily shelving uncommitted changes",
+      "Merging two branches without a merge commit"
+    ],
+    "correct_answer": "Marking a specific commit as a named release or milestone",
+    "explanation": "Tags create a permanent pointer to a specific commit, typically used to mark release versions (e.g. `v1.0.0`). Unlike branches, tags do not move as new commits are made. `git stash` shelves changes; `git merge --squash` squashes commits.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-083",
+    "date": "2026-04-28",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "A RAG system retrieves irrelevant passages. Documents are split into 2,000-word chunks. What is the most likely issue with this chunking strategy?",
+    "options": [
+      "The embedding model is too slow to process chunks that large",
+      "2,000-word chunks mix multiple topics into one embedding, reducing retrieval precision",
+      "Vector databases only support chunks under 100 words",
+      "The LLM's context window is too small to handle any chunks"
+    ],
+    "correct_answer": "2,000-word chunks mix multiple topics into one embedding, reducing retrieval precision",
+    "explanation": "Large chunks dilute the embedding by averaging many topics together, making it harder for vector search to find the most relevant passage. Smaller chunks (100\u2013400 tokens) yield more precise retrieval. A common pattern pairs small retrieval chunks with larger parent chunks supplied to the LLM for sufficient context.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-098",
+    "date": "2026-04-28",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the space complexity of a recursive DFS on a graph with V vertices and E edges (worst case)?",
+    "options": [
+      "O(1)",
+      "O(E)",
+      "O(V)",
+      "O(V + E)"
+    ],
+    "correct_answer": "O(V)",
+    "explanation": "Recursive DFS uses the call stack. In the worst case (a path graph), the stack depth equals the number of vertices V. The visited set also takes O(V). Edge traversal is part of time complexity; the dominant space factor is the recursion depth \u2014 O(V).",
+    "difficulty": "medium"
+  }
+]

@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-058",
+    "date": "2026-04-30",
+    "topic": "frontend",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between `==` and `===` in JavaScript?",
+    "options": [
+      "They are identical \u2014 both compare value and type",
+      "`==` compares value with type coercion; `===` compares value AND type without coercion",
+      "`===` is deprecated since ES6",
+      "`==` only works for primitive types"
+    ],
+    "correct_answer": "`==` compares value with type coercion; `===` compares value AND type without coercion",
+    "explanation": "`==` triggers type coercion (e.g. `0 == false` is `true`, `\"\" == false` is `true`). `===` (strict equality) requires both value and type to match (`0 === false` is `false`). Always prefer `===` to avoid subtle bugs.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-059",
+    "date": "2026-04-30",
+    "topic": "devops",
+    "type": "predict-output",
+    "prompt": "What does this command do to `app.log`?",
+    "code_snippet": "cat /dev/null > app.log",
+    "options": [
+      "Deletes app.log from disk",
+      "Clears (empties) app.log without deleting the file",
+      "Prints the contents of app.log to the terminal",
+      "Copies app.log to /dev/null"
+    ],
+    "correct_answer": "Clears (empties) app.log without deleting the file",
+    "explanation": "`>` truncates the file to zero bytes before any data is written. Since `/dev/null` produces no output, the result is an empty file. A shorter equivalent is `> app.log` or `truncate -s 0 app.log`. The file's inode and permissions are preserved.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-060",
+    "date": "2026-04-30",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "Your API receives image uploads, resizes them to 3 formats, and emails the user. Each step takes 1\u20135 seconds. Which pattern keeps the API fast?",
+    "options": [
+      "Process everything synchronously inside the HTTP handler",
+      "Return 202 Accepted immediately, then process asynchronously via a job queue",
+      "Use server-sent events to stream progress to the client",
+      "Increase the HTTP timeout to 60 seconds"
+    ],
+    "correct_answer": "Return 202 Accepted immediately, then process asynchronously via a job queue",
+    "explanation": "Long-running work should not block an HTTP handler. Return 202 Accepted immediately \u2014 signalling the request was accepted for processing. A job queue (BullMQ, Sidekiq, etc.) handles resizing and email asynchronously, keeping API response times low.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-061",
+    "date": "2026-04-30",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What is printed?",
+    "code_snippet": "d = {'a': 1, 'b': 2}\nd.update({'b': 3, 'c': 4})\nprint(d)",
+    "options": [
+      "{'a': 1, 'b': 2}",
+      "{'b': 3, 'c': 4}",
+      "{'a': 1, 'b': 3, 'c': 4}",
+      "{'a': 1, 'b': 2, 'b': 3, 'c': 4}"
+    ],
+    "correct_answer": "{'a': 1, 'b': 3, 'c': 4}",
+    "explanation": "`dict.update()` merges the provided dict into the existing one. Existing keys are overwritten (`'b'` goes from `2` to `3`). New keys are added (`'c': 4`). Keys not in the update are kept (`'a': 1`).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-062",
+    "date": "2026-04-30",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is the primary purpose of a `.gitignore` file?",
+    "options": [
+      "To list files that should never be tracked by Git",
+      "To list files that must always be committed",
+      "To encrypt sensitive files before committing",
+      "To define merge conflict resolution rules"
+    ],
+    "correct_answer": "To list files that should never be tracked by Git",
+    "explanation": "`.gitignore` tells Git which files and directories to exclude from tracking \u2014 typically build artifacts, `node_modules/`, local config files, and secrets. Git will not stage or commit these files unless explicitly overridden with `git add -f`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-085",
+    "date": "2026-04-30",
+    "topic": "ai",
+    "type": "spot-the-bug",
+    "prompt": "A developer uses an LLM's function-calling feature to get structured data. What is wrong with this code?",
+    "code_snippet": "const result = await llm.call({\n  messages: [{ role: 'user', content: 'Get the user profile' }],\n  tools: [getUserProfileTool],\n});\nconst data = JSON.parse(result.content); // parse the tool call result",
+    "options": [
+      "The tool should be named `getUser`, not `getUserProfileTool`",
+      "When the model calls a tool, the result is in `result.tool_calls`, not `result.content` \u2014 content will be null",
+      "`JSON.parse` is unnecessary because LLMs return JavaScript objects directly",
+      "`tools` is not a valid parameter \u2014 it must be called `functions`"
+    ],
+    "correct_answer": "When the model calls a tool, the result is in `result.tool_calls`, not `result.content` \u2014 content will be null",
+    "explanation": "When an LLM decides to call a tool, the API response puts the function name and arguments in `tool_calls` (OpenAI API), not in `content`. The `content` field is for text responses and will typically be null on a tool call. Parsing `result.content` will throw or return undefined.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-100",
+    "date": "2026-04-30",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "Which algorithm finds the minimum spanning tree of a weighted undirected graph?",
+    "options": [
+      "Dijkstra's algorithm",
+      "Kruskal's or Prim's algorithm",
+      "BFS",
+      "Floyd-Warshall"
+    ],
+    "correct_answer": "Kruskal's or Prim's algorithm",
+    "explanation": "Kruskal's adds the cheapest edge that doesn't form a cycle (uses Union-Find). Prim's grows the MST one vertex at a time by always picking the cheapest edge from the frontier. Both produce an MST in O(E log E) or O(E log V). Dijkstra finds shortest paths, not MST.",
+    "difficulty": "medium"
+  }
+]

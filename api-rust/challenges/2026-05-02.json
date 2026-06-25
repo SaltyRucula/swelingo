@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-068",
+    "date": "2026-05-02",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this log?",
+    "code_snippet": "const obj = { a: 1 };\nObject.freeze(obj);\nobj.a = 99;\nconsole.log(obj.a);",
+    "options": [
+      "99",
+      "1",
+      "undefined",
+      "TypeError is thrown"
+    ],
+    "correct_answer": "1",
+    "explanation": "`Object.freeze()` prevents any property additions, deletions, or value changes. In non-strict mode, mutations silently fail and the value stays `1`. In strict mode (`'use strict'`) a TypeError is thrown. Either way, `obj.a` remains `1`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-069",
+    "date": "2026-05-02",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "You need to start a long-running process and keep it running after you log out of SSH. Which command is correct?",
+    "options": [
+      "./script.sh &",
+      "nohup ./script.sh &",
+      "bg ./script.sh",
+      "daemon ./script.sh"
+    ],
+    "correct_answer": "nohup ./script.sh &",
+    "explanation": "`&` runs the process in the background but it still receives SIGHUP when the session ends, terminating it. `nohup` makes the process immune to SIGHUP, so it keeps running after logout. Output is redirected to `nohup.out` by default. `bg` resumes a suspended job.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-070",
+    "date": "2026-05-02",
+    "topic": "backend",
+    "type": "spot-the-bug",
+    "prompt": "A developer designs the following API endpoint. What REST convention does it violate?",
+    "code_snippet": "GET /deleteUser?id=123",
+    "options": [
+      "Query parameters are not allowed in REST APIs",
+      "Using GET to delete data violates HTTP \u2014 GET must be safe with no side effects",
+      "The path should include an API version prefix",
+      "The id should be passed in the request body"
+    ],
+    "correct_answer": "Using GET to delete data violates HTTP \u2014 GET must be safe with no side effects",
+    "explanation": "HTTP defines GET as safe and idempotent \u2014 no state change. Deleting via GET is dangerous: browsers prefetch links, caches serve stale \"deleted\" responses, and crawlers follow GET URLs destructively. Correct design: `DELETE /users/123`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-071",
+    "date": "2026-05-02",
+    "topic": "data",
+    "type": "spot-the-bug",
+    "prompt": "This code uses threads to increment a shared counter. What is the bug?",
+    "code_snippet": "import threading\ncounter = 0\ndef increment():\n    global counter\n    for _ in range(1000):\n        counter += 1\nthreads = [threading.Thread(target=increment) for _ in range(10)]\nfor t in threads:\n    t.start()\nfor t in threads:\n    t.join()\nprint(counter)",
+    "options": [
+      "Threads cannot access global variables",
+      "`counter += 1` is not atomic \u2014 race condition makes the final count unpredictable",
+      "The `for` loop that starts threads blocks the main thread",
+      "`threading.Thread` requires `args=()` for a no-argument function"
+    ],
+    "correct_answer": "`counter += 1` is not atomic \u2014 race condition makes the final count unpredictable",
+    "explanation": "`counter += 1` is three operations: read, add, write. Two threads can read the same value before either writes back, losing increments. The final count is typically less than 10,000. Fix: use `threading.Lock()` around the increment.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-072",
+    "date": "2026-05-02",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "You want to merge a feature branch into `main` but collapse all its commits into one clean commit. Which approach achieves this?",
+    "options": [
+      "git merge feature-branch (regular merge)",
+      "git merge --squash feature-branch, then git commit",
+      "git rebase main from the feature branch",
+      "git cherry-pick feature-branch"
+    ],
+    "correct_answer": "git merge --squash feature-branch, then git commit",
+    "explanation": "`--squash` stages all the changes from the feature branch as a single set without creating a merge commit or preserving individual commit history. You then create one clean commit yourself. Regular merge preserves all commits; rebase replays them individually.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-087",
+    "date": "2026-05-02",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "A company has 10,000 support tickets and wants an LLM to classify each into one of 5 categories. Which approach should they try first?",
+    "options": [
+      "Fine-tune a model on all 10,000 labelled tickets before running any classification",
+      "Include all 10,000 tickets in the context window for each classification request",
+      "Write a clear few-shot prompt with 2\u20133 labelled examples per category",
+      "Use keyword matching instead of an LLM to avoid hallucinations"
+    ],
+    "correct_answer": "Write a clear few-shot prompt with 2\u20133 labelled examples per category",
+    "explanation": "Few-shot classification is the fastest, cheapest starting point \u2014 no training data labelling, no fine-tuning pipeline, and modern LLMs achieve high accuracy with just a handful of examples per class. Fine-tuning becomes worthwhile later if prompting accuracy is insufficient or inference costs are prohibitive at scale.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-102",
+    "date": "2026-05-02",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "You need a data structure that supports push, pop, and retrieving the minimum element \u2014 all in O(1). Which approach works?",
+    "options": [
+      "A regular stack \u2014 pop and peek at the bottom for the min",
+      "A sorted array",
+      "Two stacks: one for values, one tracking the current minimum at each level",
+      "A min-heap"
+    ],
+    "correct_answer": "Two stacks: one for values, one tracking the current minimum at each level",
+    "explanation": "The auxiliary 'min stack' stores the current minimum alongside each push. On pop, both stacks are popped together. The top of the min stack always reflects the minimum of the remaining elements \u2014 O(1) for all three operations. A min-heap gives O(log n) push/pop.",
+    "difficulty": "hard"
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "id": "ch-004",
+    "date": "2026-04-19",
+    "topic": "data",
+    "type": "spot-the-bug",
+    "prompt": "This function should return a list of squares of even numbers. What is wrong?",
+    "code_snippet": "def even_squares(nums):\n    return [x ** 2 for x in nums if x % 2 = 0]",
+    "options": [
+      "Should use x * x instead of x ** 2",
+      "Single = should be == in the condition",
+      "The list comprehension syntax is wrong",
+      "nums should be converted to a set first"
+    ],
+    "correct_answer": "Single = should be == in the condition",
+    "explanation": "In Python, `=` is assignment and `==` is equality comparison. Using `=` inside an expression is a SyntaxError. The condition should be `if x % 2 == 0`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-005",
+    "date": "2026-04-19",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "You accidentally committed a secret API key in your last commit (not yet pushed). What is the safest way to remove it?",
+    "options": [
+      "git revert HEAD",
+      "git reset --soft HEAD~1, fix the file, then commit again",
+      "Delete the file and make a new commit",
+      "git stash"
+    ],
+    "correct_answer": "git reset --soft HEAD~1, fix the file, then commit again",
+    "explanation": "`git reset --soft HEAD~1` undoes the last commit but keeps your changes staged. You can then remove the secret, re-stage, and commit cleanly. `git revert` adds a new commit that reverts changes but the original commit (with the secret) stays in history. Since it hasn't been pushed, a soft reset is safe and clean.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-074",
+    "date": "2026-04-19",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "A RAG chatbot answers questions about a 500-page company handbook. Users report it gives outdated answers after the handbook was updated. What is the most likely cause?",
+    "options": [
+      "The LLM's training data is too old and must be retrained",
+      "The document chunks in the vector database were not re-indexed after the handbook changed",
+      "The embedding model has a bug that corrupts vectors",
+      "The LLM needs to be fine-tuned on the new handbook"
+    ],
+    "correct_answer": "The document chunks in the vector database were not re-indexed after the handbook changed",
+    "explanation": "RAG systems retrieve context from a vector index at query time. If source documents are updated but the index is not re-synced, retrieval returns stale chunks. The LLM faithfully answers based on those stale chunks \u2014 the problem is the pipeline, not the model.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-089",
+    "date": "2026-04-19",
+    "topic": "dsa",
+    "type": "spot-the-bug",
+    "prompt": "This function is supposed to reverse a linked list in-place. What is wrong?",
+    "code_snippet": "def reverse_list(head):\n    prev = None\n    curr = head\n    while curr:\n        curr.next = prev\n        prev = curr\n        curr = curr.next\n    return prev",
+    "options": [
+      "Should iterate with a for loop, not while",
+      "`curr.next` is overwritten before saving it, so the rest of the list is lost",
+      "`prev` should start at `head`, not `None`",
+      "The function should return `head`, not `prev`"
+    ],
+    "correct_answer": "`curr.next` is overwritten before saving it, so the rest of the list is lost",
+    "explanation": "After `curr.next = prev`, the original next node is unreachable. Fix: save `next_node = curr.next` before overwriting, then advance with `curr = next_node`.",
+    "difficulty": "medium"
+  }
+]

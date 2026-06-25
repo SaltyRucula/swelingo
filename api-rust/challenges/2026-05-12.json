@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-166",
+    "date": "2026-05-12",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This useEffect hook should run only once when the component mounts. What is wrong?",
+    "code_snippet": "function Profile({ userId }) {\n  const [user, setUser] = useState(null);\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(r => r.json())\n      .then(setUser);\n  });\n  return <div>{user?.name}</div>;\n}",
+    "options": [
+      "fetch cannot be used inside useEffect",
+      "The dependency array is missing \u2014 the effect runs after every render, causing infinite fetches",
+      "setUser cannot be passed directly as a .then callback",
+      "Optional chaining (?.) is not allowed in JSX"
+    ],
+    "correct_answer": "The dependency array is missing \u2014 the effect runs after every render, causing infinite fetches",
+    "explanation": "`useEffect(fn)` with no dependency array runs after every render. The fetch updates state \u2192 causes a render \u2192 runs the effect again \u2192 fetch again \u2014 infinite loop. Add `[userId]` as the dependency array to run only when `userId` changes (and once on mount).",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-167",
+    "date": "2026-05-12",
+    "topic": "devops",
+    "type": "spot-the-bug",
+    "prompt": "A developer wants to run a command inside a running Docker container. What is wrong?",
+    "code_snippet": "docker run -it myapp bash",
+    "options": [
+      "bash is not available in Docker containers",
+      "`docker run` starts a new container \u2014 use `docker exec -it <container_id> bash` to enter an existing running container",
+      "The `-it` flags are mutually exclusive",
+      "`docker run` requires sudo"
+    ],
+    "correct_answer": "`docker run` starts a new container \u2014 use `docker exec -it <container_id> bash` to enter an existing running container",
+    "explanation": "`docker run` creates and starts a brand new container from the image. If you want to open a shell inside an already-running container, use `docker exec -it <container_id_or_name> bash` (or `sh` if bash is not available). `docker exec` runs a command in an existing, running container.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-168",
+    "date": "2026-05-12",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "What is database connection pooling and why is it important?",
+    "options": [
+      "Storing database query results in memory to avoid re-running them",
+      "Maintaining a pool of pre-established database connections that are reused across requests, avoiding the overhead of creating a new connection per request",
+      "Splitting a database across multiple servers",
+      "Compressing database data to reduce storage"
+    ],
+    "correct_answer": "Maintaining a pool of pre-established database connections that are reused across requests, avoiding the overhead of creating a new connection per request",
+    "explanation": "Establishing a DB connection involves TCP handshake, authentication, and session setup \u2014 typically 10\u2013100ms. Under load, creating a new connection per request is slow and exhausts DB server resources. A connection pool keeps N connections open and lends them to requests, returning them when done. PgBouncer, HikariCP, and most ORMs provide this.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-169",
+    "date": "2026-05-12",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between `OLTP` and `OLAP` databases?",
+    "options": [
+      "They are different names for the same type of database",
+      "OLTP (Online Transaction Processing) is optimised for many small read/write transactions; OLAP (Online Analytical Processing) is optimised for complex aggregations over large datasets",
+      "OLAP is for real-time applications; OLTP is for historical analysis",
+      "OLTP uses SQL; OLAP uses NoSQL"
+    ],
+    "correct_answer": "OLTP (Online Transaction Processing) is optimised for many small read/write transactions; OLAP (Online Analytical Processing) is optimised for complex aggregations over large datasets",
+    "explanation": "OLTP databases (PostgreSQL, MySQL) handle high-frequency, low-latency transactions \u2014 inserting orders, updating user records. OLAP systems (BigQuery, Redshift, Snowflake) are columnar stores optimised for aggregating billions of rows in analytical queries. Running analytics on an OLTP system slows it down for operational traffic.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-170",
+    "date": "2026-05-12",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What does `git bisect` do?",
+    "options": [
+      "Splits a commit into two smaller commits",
+      "Uses binary search on your commit history to find the first commit that introduced a bug",
+      "Merges two branches together",
+      "Compares two files side by side"
+    ],
+    "correct_answer": "Uses binary search on your commit history to find the first commit that introduced a bug",
+    "explanation": "`git bisect` automates binary search: you mark a known good commit and the current bad state. Git checks out the midpoint commit and asks if it is good or bad. After log\u2082(n) steps it identifies the exact commit that introduced the regression. With `git bisect run <test-script>` it can automate the process entirely.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-171",
+    "date": "2026-05-12",
+    "topic": "ai",
+    "type": "architecture-take",
+    "prompt": "You're building a coding assistant. Users write code and ask for reviews. What is the most important safety measure to add?",
+    "options": [
+      "Limit response length to 100 tokens",
+      "Never let the model suggest code that executes automatically \u2014 display suggestions only, never auto-apply",
+      "Only allow questions about Python",
+      "Rate-limit to 3 questions per hour"
+    ],
+    "correct_answer": "Never let the model suggest code that executes automatically \u2014 display suggestions only, never auto-apply",
+    "explanation": "Auto-executing LLM-generated code is dangerous \u2014 the model can produce plausible-looking code with subtle security flaws, data corruption risks, or irreversible operations. Always require explicit human review before any code runs. This is the 'human in the loop' principle for code generation.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-172",
+    "date": "2026-05-12",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "You need to implement an LRU (Least Recently Used) cache with O(1) get and put. What combination of data structures achieves this?",
+    "options": [
+      "A sorted array and binary search",
+      "A hash map and a doubly linked list",
+      "A min-heap and a hash set",
+      "A BST and a queue"
+    ],
+    "correct_answer": "A hash map and a doubly linked list",
+    "explanation": "The hash map provides O(1) key lookup. The doubly linked list maintains access order (most recently used at head, least at tail) with O(1) node removal and insertion when you have a pointer to the node. The hash map stores keys \u2192 linked list nodes. On get, move the node to head. On capacity exceeded, remove from tail.",
+    "difficulty": "hard"
+  }
+]

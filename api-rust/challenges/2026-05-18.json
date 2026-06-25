@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-208",
+    "date": "2026-05-18",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this log?",
+    "code_snippet": "console.log(typeof null);",
+    "options": [
+      "\"null\"",
+      "\"object\"",
+      "\"undefined\"",
+      "\"boolean\""
+    ],
+    "correct_answer": "\"object\"",
+    "explanation": "`typeof null === 'object'` is a long-standing JavaScript bug that has been preserved for backwards compatibility since JS 1.0. `null` is not an object \u2014 it is the intentional absence of an object value. Always check for null explicitly: `value === null`, not by typeof.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-209",
+    "date": "2026-05-18",
+    "topic": "devops",
+    "type": "spot-the-bug",
+    "prompt": "A developer wants to run a container in the background and map host port 8080 to container port 3000. What is wrong?",
+    "code_snippet": "docker run -p 3000:8080 myapp",
+    "options": [
+      "Should use `--port` not `-p`",
+      "Port mapping is reversed \u2014 it should be `host:container`, so `-p 8080:3000`",
+      "Background flag `-d` is missing, but port mapping is correct",
+      "Both: port is reversed AND -d is missing"
+    ],
+    "correct_answer": "Both: port is reversed AND -d is missing",
+    "explanation": "Docker `-p` syntax is `hostPort:containerPort`. `-p 3000:8080` maps host 3000 \u2192 container 8080, not host 8080 \u2192 container 3000. To run in the background the `-d` (detach) flag is also needed. Correct command: `docker run -d -p 8080:3000 myapp`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-210",
+    "date": "2026-05-18",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between authentication and authorisation?",
+    "options": [
+      "They are synonyms",
+      "Authentication verifies who you are; authorisation determines what you are allowed to do",
+      "Authentication is done client-side; authorisation is server-side",
+      "Authorisation happens before authentication"
+    ],
+    "correct_answer": "Authentication verifies who you are; authorisation determines what you are allowed to do",
+    "explanation": "Authentication (AuthN) establishes identity \u2014 'You are Alice'. Authorisation (AuthZ) enforces permissions \u2014 'Alice can read posts but not delete them'. You always authenticate first, then authorise. OAuth handles authorisation; JWT is commonly used to carry both identity claims and permission scopes.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-211",
+    "date": "2026-05-18",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between `INNER JOIN` and `LEFT JOIN` in SQL?",
+    "options": [
+      "INNER JOIN is faster; LEFT JOIN is for large tables",
+      "INNER JOIN returns only rows with matching keys in both tables; LEFT JOIN returns all rows from the left table plus matched rows from the right",
+      "LEFT JOIN is deprecated in favour of INNER JOIN",
+      "They return the same rows but in different order"
+    ],
+    "correct_answer": "INNER JOIN returns only rows with matching keys in both tables; LEFT JOIN returns all rows from the left table plus matched rows from the right",
+    "explanation": "INNER JOIN is the intersection \u2014 rows that have a match in both tables. LEFT JOIN (outer join) keeps every row from the left table; if there's no match in the right table, its columns are NULL. Use LEFT JOIN when you want to include records even if they have no related row on the right side.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-212",
+    "date": "2026-05-18",
+    "topic": "software",
+    "type": "predict-output",
+    "prompt": "A team uses trunk-based development. What does this mean?",
+    "options": [
+      "All developers commit directly to a single main branch frequently, using feature flags for incomplete work",
+      "Each developer has their own permanent branch that is never merged",
+      "The main branch is locked and releases happen via tags only",
+      "Code is stored in a monorepo with one branch per service"
+    ],
+    "correct_answer": "All developers commit directly to a single main branch frequently, using feature flags for incomplete work",
+    "explanation": "Trunk-based development (TBD) keeps everyone on one shared branch ('trunk' or 'main'). Short-lived feature branches (< 1 day) are merged via PRs, but long-lived branches are avoided. Incomplete features are hidden behind feature flags rather than living in a branch. This reduces merge conflicts and enables continuous integration.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-213",
+    "date": "2026-05-18",
+    "topic": "ai",
+    "type": "spot-the-bug",
+    "prompt": "A developer writes this prompt hoping for a concise answer. What is the issue?",
+    "code_snippet": "Prompt: \"Tell me about machine learning, neural networks, deep learning, transformers, reinforcement learning, and how they relate to each other and give lots of examples.\"",
+    "options": [
+      "The prompt is too short",
+      "The prompt asks for too many topics at once, making it hard for the model to give a focused, concise response",
+      "Technical terms cannot be used in prompts",
+      "Prompts must be in question form"
+    ],
+    "correct_answer": "The prompt asks for too many topics at once, making it hard for the model to give a focused, concise response",
+    "explanation": "Effective prompt engineering favours focused, specific prompts. Asking for 5+ topics with 'lots of examples' produces a long, shallow response covering everything superficially. Better: ask one question at a time, or structure the prompt with clear priorities ('In 3 bullet points, explain how transformers differ from classic neural networks').",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-214",
+    "date": "2026-05-18",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the worst-case time complexity of quicksort, and when does it occur?",
+    "options": [
+      "O(n log n), when the array is already sorted",
+      "O(n\u00b2), when the pivot is consistently the smallest or largest element",
+      "O(n\u00b2), when the array contains duplicate values",
+      "O(n log n), always \u2014 quicksort has no worst case"
+    ],
+    "correct_answer": "O(n\u00b2), when the pivot is consistently the smallest or largest element",
+    "explanation": "Quicksort's worst case is O(n\u00b2) and occurs when each partition step picks the worst possible pivot \u2014 the minimum or maximum element. This creates maximally unbalanced partitions of size 0 and n-1, leading to n recursive calls. Already-sorted arrays hit this case with naive first-element pivot selection. Randomised pivot selection or median-of-three avoids it in practice.",
+    "difficulty": "medium"
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-103",
+    "date": "2026-05-03",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This React component re-renders infinitely. What is the bug?",
+    "code_snippet": "function Counter() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    setCount(count + 1);\n  }, [count]);\n  return <div>{count}</div>;\n}",
+    "options": [
+      "useState cannot be used with useEffect",
+      "The dependency array [count] causes the effect to run every time count changes, which itself changes count \u2014 infinite loop",
+      "setCount should use the functional form setCount(c => c + 1)",
+      "useEffect cannot return JSX"
+    ],
+    "correct_answer": "The dependency array [count] causes the effect to run every time count changes, which itself changes count \u2014 infinite loop",
+    "explanation": "The effect runs when `count` changes, calls `setCount` which changes `count`, which triggers the effect again \u2014 infinite loop. If you want to run something once on mount, use an empty dependency array `[]`. If you need to increment on some event, move `setCount` into the event handler instead.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-104",
+    "date": "2026-05-03",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "Your CI pipeline runs tests on every push and takes 20 minutes. PRs are blocked until tests pass. What is the best strategy to speed this up?",
+    "options": [
+      "Skip tests on feature branches and only run them on main",
+      "Parallelise test suites across multiple CI workers and cache dependencies",
+      "Run tests only once a day in a scheduled job",
+      "Increase the timeout so slow tests do not fail"
+    ],
+    "correct_answer": "Parallelise test suites across multiple CI workers and cache dependencies",
+    "explanation": "Splitting tests across parallel workers directly reduces wall-clock time. Caching dependencies (npm packages, Docker layers) avoids re-downloading them on every run. Skipping tests on feature branches defeats the purpose of CI. Scheduled jobs create long feedback loops.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-105",
+    "date": "2026-05-03",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "A REST API endpoint creates a user and returns the new user. Which HTTP status code is most appropriate for a successful creation?",
+    "options": [
+      "200 OK",
+      "201 Created",
+      "204 No Content",
+      "202 Accepted"
+    ],
+    "correct_answer": "201 Created",
+    "explanation": "201 Created specifically signals that a new resource was created as a result of the request. It should include a `Location` header pointing to the new resource. 200 is for successful requests that return existing data. 204 means success with no response body. 202 means the request was accepted but processing is not complete.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-106",
+    "date": "2026-05-03",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What is the output of this Python code?",
+    "code_snippet": "a = (1, 2, 3)\na[0] = 10\nprint(a)",
+    "options": [
+      "(10, 2, 3)",
+      "(1, 2, 3)",
+      "TypeError: 'tuple' object does not support item assignment",
+      "ValueError"
+    ],
+    "correct_answer": "TypeError: 'tuple' object does not support item assignment",
+    "explanation": "Tuples in Python are immutable \u2014 you cannot change, add, or remove elements after creation. To modify a tuple you must create a new one. This is different from lists, which are mutable.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-107",
+    "date": "2026-05-03",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "You are reviewing a PR with 47 files changed and 2,000 lines of code. What is the most important feedback to give first?",
+    "options": [
+      "Request style fixes and minor naming improvements before anything else",
+      "Ask the author to split it into smaller, focused PRs that are easier to review safely",
+      "Approve it quickly to unblock the team",
+      "Reject it and ask them to rewrite from scratch"
+    ],
+    "correct_answer": "Ask the author to split it into smaller, focused PRs that are easier to review safely",
+    "explanation": "Large PRs are hard to review thoroughly \u2014 reviewers lose focus, miss bugs, and just approve to unblock. PRs under ~400 lines get meaningful review. Asking for smaller, logically separated PRs is the highest-value feedback you can give. Style issues are secondary to reviewability.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-108",
+    "date": "2026-05-03",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "You want an LLM to extract all dates from a block of text and return them as a JSON array. Which prompt strategy is most reliable?",
+    "options": [
+      "Ask the model to 'find dates' with no further instruction",
+      "Provide the exact output schema and a few-shot example with input and expected JSON output",
+      "Ask the model to first summarise the text, then extract dates",
+      "Increase the temperature to make the model more creative in finding dates"
+    ],
+    "correct_answer": "Provide the exact output schema and a few-shot example with input and expected JSON output",
+    "explanation": "For structured extraction, specifying the exact schema (field names, types, format) and providing one or two examples dramatically reduces format errors. Some providers also offer JSON mode or function calling which further constrain the output. Vague instructions lead to inconsistent output that is hard to parse programmatically.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-109",
+    "date": "2026-05-03",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the time complexity of inserting an element at the beginning of an array (not a linked list)?",
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n\u00b2)"
+    ],
+    "correct_answer": "O(n)",
+    "explanation": "Inserting at the beginning of an array requires shifting every existing element one position to the right to make room. With n elements, that is n shift operations \u2014 O(n). Linked list insertion at the head is O(1) since only pointer changes are needed.",
+    "difficulty": "easy"
+  }
+]

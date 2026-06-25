@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-138",
+    "date": "2026-05-08",
+    "topic": "frontend",
+    "type": "logic-puzzle",
+    "prompt": "What is the purpose of the `key` prop when rendering a list in React?",
+    "options": [
+      "It is used to access the element from the parent component",
+      "It helps React identify which items have changed, been added, or removed \u2014 enabling efficient DOM updates",
+      "It sets a CSS class on the rendered element",
+      "It is required by JavaScript for array iteration"
+    ],
+    "correct_answer": "It helps React identify which items have changed, been added, or removed \u2014 enabling efficient DOM updates",
+    "explanation": "React's reconciliation algorithm uses `key` to match elements across renders. Without keys, React re-renders the entire list on any change. With stable, unique keys (e.g. item IDs), React can add, remove, or reorder elements with minimal DOM operations. Using array index as a key breaks this when items are reordered.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-139",
+    "date": "2026-05-08",
+    "topic": "devops",
+    "type": "spot-the-bug",
+    "prompt": "A developer writes this in a Dockerfile. What is the security problem?",
+    "code_snippet": "FROM ubuntu:22.04\nRUN apt-get install -y curl\nCOPY . /app\nENV API_KEY=super_secret_key_12345",
+    "options": [
+      "apt-get requires sudo",
+      "COPY should come before RUN",
+      "ENV variables are baked into the image and visible in docker inspect \u2014 secrets must not be stored this way",
+      "The FROM instruction requires a specific digest"
+    ],
+    "correct_answer": "ENV variables are baked into the image and visible in docker inspect \u2014 secrets must not be stored this way",
+    "explanation": "`ENV` values are stored in the image metadata and visible to anyone who can run `docker inspect` or pulls the image. Never bake secrets into images. Instead, pass secrets at runtime via environment variables (`-e` flag or docker-compose `env_file`), Docker secrets, or a secrets manager.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-140",
+    "date": "2026-05-08",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "What is the N+1 query problem in database-backed applications?",
+    "options": [
+      "Running a query that returns N+1 rows instead of N",
+      "Executing 1 query to get a list of N records, then N additional queries to fetch related data for each \u2014 O(N) queries total",
+      "A SQL error that occurs when a JOIN returns too many rows",
+      "Having N+1 database connections open simultaneously"
+    ],
+    "correct_answer": "Executing 1 query to get a list of N records, then N additional queries to fetch related data for each \u2014 O(N) queries total",
+    "explanation": "Example: fetch 100 posts (1 query), then for each post fetch its author (100 queries) = 101 total. This is extremely common with ORMs and causes severe performance issues at scale. Fix: use eager loading / JOINs to fetch everything in 1\u20132 queries, or use a DataLoader pattern for batching.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-141",
+    "date": "2026-05-08",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between an inner join and a left join in SQL?",
+    "options": [
+      "They are identical \u2014 just different syntax",
+      "INNER JOIN returns only rows with matches in both tables; LEFT JOIN returns all rows from the left table, with NULLs where there is no match in the right table",
+      "LEFT JOIN is faster than INNER JOIN",
+      "INNER JOIN works on indexed columns only"
+    ],
+    "correct_answer": "INNER JOIN returns only rows with matches in both tables; LEFT JOIN returns all rows from the left table, with NULLs where there is no match in the right table",
+    "explanation": "INNER JOIN is the intersection \u2014 only rows that exist in both tables. LEFT JOIN keeps every row from the left table and fills NULLs where the right table has no matching row. This is essential for questions like 'find all customers who have never placed an order' (LEFT JOIN + WHERE order_id IS NULL).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-142",
+    "date": "2026-05-08",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is the purpose of a feature flag (feature toggle)?",
+    "options": [
+      "A Git branch strategy for features",
+      "A configuration flag that enables or disables a feature at runtime without deploying new code",
+      "A CSS class that toggles UI visibility",
+      "A database column that marks features as deprecated"
+    ],
+    "correct_answer": "A configuration flag that enables or disables a feature at runtime without deploying new code",
+    "explanation": "Feature flags decouple deployment from release. Code is shipped to production but the feature stays off until the flag is enabled \u2014 allowing gradual rollouts, A/B tests, and instant rollback without re-deployment. This enables continuous delivery practices and reduces deployment risk.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-143",
+    "date": "2026-05-08",
+    "topic": "ai",
+    "type": "spot-the-bug",
+    "prompt": "A developer writes a system prompt to prevent an LLM from discussing competitors. What is wrong?",
+    "code_snippet": "System: \"You must never mention CompetitorX or CompetitorY in your responses. This is absolutely forbidden.\"",
+    "options": [
+      "The instruction is too long",
+      "Naming specific forbidden topics in the system prompt can make the model more likely to discuss them \u2014 use positive constraints instead",
+      "System prompts cannot contain company names",
+      "The instruction will cause the model to crash"
+    ],
+    "correct_answer": "Naming specific forbidden topics in the system prompt can make the model more likely to discuss them \u2014 use positive constraints instead",
+    "explanation": "Explicitly listing forbidden topics can prime the model and make it more likely to generate that content (the 'don't think of an elephant' effect). More effective: use positive framing \u2014 'Only discuss topics related to our product and general software development. If asked about other companies, politely redirect.' Also consider that determined users can often bypass prohibition-based prompts through indirect questioning.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-144",
+    "date": "2026-05-08",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between BFS and DFS for tree traversal?",
+    "options": [
+      "BFS is for graphs; DFS is only for trees",
+      "BFS explores level by level using a queue; DFS explores as deep as possible along each branch using a stack (or recursion)",
+      "DFS always finds the shortest path; BFS does not",
+      "BFS requires a sorted tree; DFS works on any tree"
+    ],
+    "correct_answer": "BFS explores level by level using a queue; DFS explores as deep as possible along each branch using a stack (or recursion)",
+    "explanation": "BFS (Breadth-First Search) uses a queue to visit all nodes at depth 1, then depth 2, etc. \u2014 ideal for finding the shortest path or level-order traversal. DFS uses a stack or recursion to go as deep as possible before backtracking \u2014 used for path finding, topological sort, and tree serialization.",
+    "difficulty": "easy"
+  }
+]

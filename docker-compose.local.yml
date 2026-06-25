@@ -1,0 +1,10 @@
+# Local development overrides
+# Swaps port 80 → 8080 to avoid needing root on macOS.
+# Also points EXPO_PUBLIC_API_URL to localhost.
+services:
+  web:
+    ports:
+      - "8080:80"
+    build:
+      args:
+        - EXPO_PUBLIC_API_URL=http://localhost:3001

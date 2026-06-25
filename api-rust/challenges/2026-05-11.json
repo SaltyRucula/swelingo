@@ -1,0 +1,115 @@
+[
+  {
+    "id": "ch-159",
+    "date": "2026-05-11",
+    "topic": "frontend",
+    "type": "logic-puzzle",
+    "prompt": "What is the virtual DOM and why does React use it?",
+    "options": [
+      "A DOM that exists only in the browser's GPU memory for faster rendering",
+      "An in-memory JavaScript representation of the real DOM \u2014 React diffs it to compute the minimal set of actual DOM updates needed",
+      "A shadow DOM used for CSS scoping",
+      "A backup of the DOM stored in localStorage"
+    ],
+    "correct_answer": "An in-memory JavaScript representation of the real DOM \u2014 React diffs it to compute the minimal set of actual DOM updates needed",
+    "explanation": "Directly manipulating the real DOM is expensive. React maintains a lightweight JS copy (virtual DOM) and when state changes, diffs the old and new virtual trees (reconciliation) to find the minimal set of real DOM mutations needed. This batches updates and avoids unnecessary reflows/repaints.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-160",
+    "date": "2026-05-11",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between horizontal and vertical scaling?",
+    "options": [
+      "Horizontal adds more CPU/RAM to existing servers; vertical adds more servers",
+      "Vertical adds more CPU/RAM to an existing server; horizontal adds more server instances",
+      "They are the same thing",
+      "Horizontal is for databases only; vertical is for application servers"
+    ],
+    "correct_answer": "Vertical adds more CPU/RAM to an existing server; horizontal adds more server instances",
+    "explanation": "Vertical scaling (scale up) upgrades a single machine \u2014 bigger instance, more cores, more RAM. It has a hard ceiling (the largest available machine). Horizontal scaling (scale out) adds more instances behind a load balancer. It is theoretically unlimited and provides redundancy, but requires stateless services.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-161",
+    "date": "2026-05-11",
+    "topic": "backend",
+    "type": "predict-output",
+    "prompt": "A client sends `GET /users/123`. The user does not exist. Which HTTP status code should the API return?",
+    "options": [
+      "200 with null body",
+      "204 No Content",
+      "404 Not Found",
+      "400 Bad Request"
+    ],
+    "correct_answer": "404 Not Found",
+    "explanation": "404 means the requested resource does not exist. It is appropriate when the ID format is valid but no such record exists in the database. 204 means success with no content \u2014 wrong for a missing resource. 400 is for invalid requests (e.g. malformed ID format). 200 with a null body is a REST anti-pattern.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-162",
+    "date": "2026-05-11",
+    "topic": "data",
+    "type": "spot-the-bug",
+    "prompt": "This Python code uses a set to deduplicate a list. What is the problem?",
+    "code_snippet": "items = ['banana', 'apple', 'banana', 'cherry', 'apple']\nunique = list(set(items))\nprint(unique)",
+    "options": [
+      "set() raises an error on strings",
+      "The output order is non-deterministic \u2014 sets do not preserve insertion order",
+      "list() cannot convert a set",
+      "There is no bug \u2014 this is correct"
+    ],
+    "correct_answer": "The output order is non-deterministic \u2014 sets do not preserve insertion order",
+    "explanation": "Python sets are unordered. `list(set(items))` will deduplicate but the output order is unpredictable and may change between Python versions or runs. If order matters, use `dict.fromkeys()`: `list(dict.fromkeys(items))` \u2014 preserves insertion order while deduplicating (Python 3.7+).",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-163",
+    "date": "2026-05-11",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is code coverage and what is its main limitation?",
+    "options": [
+      "The percentage of lines executed by tests \u2014 100% coverage guarantees bug-free code",
+      "The percentage of lines executed by tests \u2014 high coverage shows tests run the code but does not guarantee correctness",
+      "A metric that measures the number of tests per file",
+      "The percentage of developers who have reviewed each file"
+    ],
+    "correct_answer": "The percentage of lines executed by tests \u2014 high coverage shows tests run the code but does not guarantee correctness",
+    "explanation": "Code coverage measures what percentage of lines/branches/paths are executed during tests. 100% coverage means every line ran, but tests can execute code without asserting the correct outcome. A test can have 100% coverage and still miss important bugs. Coverage is a floor, not a ceiling of quality.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-164",
+    "date": "2026-05-11",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "A user asks an LLM assistant: 'What should I invest in?' The model gives specific stock picks. What is the ethical/product risk?",
+    "options": [
+      "No risk \u2014 LLMs are licensed financial advisers",
+      "The model may hallucinate plausible-sounding but wrong advice, and users may act on it causing financial harm",
+      "Stock picking is a copyright violation",
+      "The model will refuse to answer financial questions"
+    ],
+    "correct_answer": "The model may hallucinate plausible-sounding but wrong advice, and users may act on it causing financial harm",
+    "explanation": "LLMs are not financial advisers and their outputs are not reliable for consequential decisions. They may confidently recommend stocks based on outdated training data or fabricated trends. Products in regulated domains (finance, medicine, law) must include disclaimers, route to professionals, and never present model output as authoritative advice.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-165",
+    "date": "2026-05-11",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the advantage of a hash map over a sorted array for lookups?",
+    "options": [
+      "Hash maps use less memory than sorted arrays",
+      "Hash maps provide O(1) average lookup vs O(log n) binary search on a sorted array",
+      "Sorted arrays cannot store duplicate keys",
+      "Hash maps are always faster than sorted arrays for every operation"
+    ],
+    "correct_answer": "Hash maps provide O(1) average lookup vs O(log n) binary search on a sorted array",
+    "explanation": "Hash map lookup is O(1) average case \u2014 compute hash, index into bucket. Sorted array lookup via binary search is O(log n). For 1 million elements: ~1 operation vs ~20. However, sorted arrays use less memory (no hash overhead), support range queries, and have better cache performance for iteration.",
+    "difficulty": "easy"
+  }
+]

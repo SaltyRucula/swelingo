@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-043",
+    "date": "2026-04-27",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this log?",
+    "code_snippet": "console.log([] + []);",
+    "options": [
+      "[]",
+      "0",
+      "\"\" (empty string)",
+      "TypeError"
+    ],
+    "correct_answer": "\"\" (empty string)",
+    "explanation": "Both arrays are converted to strings via `.toString()`, which returns `\"\"` for an empty array. `\"\" + \"\"` is `\"\"` (empty string). This is one of JavaScript's famously surprising type coercion results.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-044",
+    "date": "2026-04-27",
+    "topic": "devops",
+    "type": "spot-the-bug",
+    "prompt": "A developer wants to create a compressed `.tar.gz` archive of the `dist/` folder. What is wrong?",
+    "code_snippet": "tar -czf dist/ archive.tar.gz",
+    "options": [
+      "The `-z` flag is not supported for directories",
+      "The output filename and source are swapped \u2014 the archive name must immediately follow `-f`",
+      "Cannot archive directories with `tar`",
+      "`-c` creates a `.zip`, not a `.tar.gz`"
+    ],
+    "correct_answer": "The output filename and source are swapped \u2014 the archive name must immediately follow `-f`",
+    "explanation": "With `tar -czf`, the argument immediately after `-f` is the output filename. `tar -czf dist/ archive.tar.gz` treats `dist/` as the archive filename and `archive.tar.gz` as the source. Correct: `tar -czf archive.tar.gz dist/`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-045",
+    "date": "2026-04-27",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "During a flash sale, 10,000 users simultaneously try to buy one of 50 remaining items. Which mechanism most reliably prevents overselling?",
+    "options": [
+      "Check stock in application code before each purchase",
+      "Use a database transaction with SELECT \u2026 FOR UPDATE",
+      "Use an in-memory counter on the server",
+      "Add more API servers to handle the load"
+    ],
+    "correct_answer": "Use a database transaction with SELECT \u2026 FOR UPDATE",
+    "explanation": "`SELECT \u2026 FOR UPDATE` (pessimistic lock) holds a row lock for the duration of the transaction, preventing concurrent reads that lead to overselling. Application-level checks without DB locks have a race condition. More servers make the race worse.",
+    "difficulty": "hard"
+  },
+  {
+    "id": "ch-046",
+    "date": "2026-04-27",
+    "topic": "data",
+    "type": "spot-the-bug",
+    "prompt": "This function calculates the average of a list. What bug could crash it?",
+    "code_snippet": "def average(numbers):\n    return sum(numbers) / len(numbers)",
+    "options": [
+      "Should use `//` (integer division) not `/`",
+      "Crashes with ZeroDivisionError when called with an empty list",
+      "`sum()` does not work on lists",
+      "`numbers` is a reserved keyword in Python"
+    ],
+    "correct_answer": "Crashes with ZeroDivisionError when called with an empty list",
+    "explanation": "`len([])` is `0`, so dividing by it raises `ZeroDivisionError`. Fix: `return sum(numbers) / len(numbers) if numbers else 0.0`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-047",
+    "date": "2026-04-27",
+    "topic": "software",
+    "type": "predict-output",
+    "prompt": "What does `git diff HEAD~2 HEAD` show?",
+    "options": [
+      "Changes introduced by the 2 most recent commits combined",
+      "The diff between the current branch and a branch named `HEAD~2`",
+      "Only the changes from exactly 2 commits ago",
+      "The diff between the staging area and the last commit"
+    ],
+    "correct_answer": "Changes introduced by the 2 most recent commits combined",
+    "explanation": "`HEAD~2` refers to the commit 2 steps before HEAD. `git diff HEAD~2 HEAD` shows the cumulative diff between that ancestor and the current HEAD \u2014 the combined effect of the last two commits.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-082",
+    "date": "2026-04-27",
+    "topic": "ai",
+    "type": "architecture-take",
+    "prompt": "A pipeline has Agent A researching a topic, Agent B writing a draft from A's notes, and Agent C editing B's draft. What is the biggest architectural risk?",
+    "options": [
+      "The agents will refuse to collaborate without explicit coordination protocols",
+      "Errors compound: a hallucination from Agent A becomes ground truth for B and C with no correction",
+      "The system will be too slow because agents cannot run in parallel",
+      "All agents must use the same underlying LLM or outputs will be inconsistent"
+    ],
+    "correct_answer": "Errors compound: a hallucination from Agent A becomes ground truth for B and C with no correction",
+    "explanation": "In sequential multi-agent pipelines, an upstream error propagates unchecked. A hallucinated fact from the researcher gets written up by the drafter and polished by the editor \u2014 each agent amplifying the mistake. Mitigations include validation steps between agents, retrieval grounding, and human review checkpoints.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-097",
+    "date": "2026-04-27",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "You have an array of integers and want to find two numbers that sum to a target. What is the optimal approach?",
+    "options": [
+      "Nested loops checking every pair \u2014 O(n\u00b2)",
+      "Sort the array then use two pointers \u2014 O(n log n)",
+      "Store each element in a hash set; for each element check if (target - element) exists \u2014 O(n)",
+      "Binary search for each element's complement \u2014 O(n log n)"
+    ],
+    "correct_answer": "Store each element in a hash set; for each element check if (target - element) exists \u2014 O(n)",
+    "explanation": "One pass: for each number x, check if (target - x) is already in the set. If yes, you have a pair. If no, add x to the set. This is O(n) time and O(n) space \u2014 optimal for this problem and a classic Google/FAANG interview pattern.",
+    "difficulty": "easy"
+  }
+]

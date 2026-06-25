@@ -1,0 +1,38 @@
+[package]
+name = "swe-duolingo-api"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "swe_duolingo_api"
+path = "src/lib.rs"
+
+[[bin]]
+name = "server"
+path = "src/main.rs"
+
+[dependencies]
+axum = { version = "0.7", features = ["json", "query"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tower-http = { version = "0.5", features = ["cors"] }
+tower = { version = "0.4" }
+chrono = { version = "0.4", features = ["serde"] }
+
+# Auth / DB
+sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "postgres", "uuid", "chrono"] }
+reqwest = { version = "0.11", features = ["json", "rustls-tls"], default-features = false }
+jsonwebtoken = "9"
+uuid = { version = "1", features = ["v4", "serde"] }
+urlencoding = "2"
+rand = "0.8"
+hex = "0.4"
+
+# Rate limiting
+tower_governor = { version = "0.4", features = ["axum"] }
+
+[dev-dependencies]
+axum-test = "14"
+regex = "1"
+testcontainers-modules = { version = "0.15", features = ["postgres"] }

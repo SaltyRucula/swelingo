@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-033",
+    "date": "2026-04-25",
+    "topic": "frontend",
+    "type": "logic-puzzle",
+    "prompt": "You have an array and need the first element that satisfies a condition. Which method is most efficient?",
+    "options": [
+      "`filter()` and take index 0",
+      "`find()`",
+      "`map()` then `filter()`",
+      "`reduce()` with an accumulator"
+    ],
+    "correct_answer": "`find()`",
+    "explanation": "`find()` stops iterating as soon as it hits the first match. `filter()` always scans the whole array and returns a new array \u2014 wasteful when you only need one element. `map` + `filter` is even more expensive.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-034",
+    "date": "2026-04-25",
+    "topic": "devops",
+    "type": "predict-output",
+    "prompt": "What is the sorted output of this pipeline?",
+    "code_snippet": "echo \"banana apple cherry\" | tr ' ' '\\n' | sort",
+    "options": [
+      "banana apple cherry",
+      "apple banana cherry",
+      "cherry banana apple",
+      "apple cherry banana"
+    ],
+    "correct_answer": "apple banana cherry",
+    "explanation": "`tr ' ' '\\n'` replaces each space with a newline, putting each word on its own line. `sort` then sorts them alphabetically: apple < banana < cherry.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-035",
+    "date": "2026-04-25",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "A service stores user-generated records where each record has a different set of optional fields. Which database model fits best?",
+    "options": [
+      "Relational (e.g. PostgreSQL) with many nullable columns",
+      "Document (e.g. MongoDB)",
+      "Key-value (e.g. Redis)",
+      "Time-series (e.g. InfluxDB)"
+    ],
+    "correct_answer": "Document (e.g. MongoDB)",
+    "explanation": "Document databases store each record as a flexible JSON-like document, so fields can vary per record without schema migrations. Relational databases require a column for every possible optional field, leading to wide, sparse tables with many NULLs.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-036",
+    "date": "2026-04-25",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "What does the `with` statement guarantee when opening a file?",
+    "options": [
+      "The file is opened in read-only mode",
+      "The file is automatically closed even if an exception is raised",
+      "The file content is fully buffered in memory",
+      "The file is locked against concurrent writes"
+    ],
+    "correct_answer": "The file is automatically closed even if an exception is raised",
+    "explanation": "`with open(...)` uses a context manager. Its `__exit__` is called on block exit \u2014 whether normal, via `return`, or an exception \u2014 ensuring the file handle is always released. Without `with`, you must call `f.close()` manually.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-037",
+    "date": "2026-04-25",
+    "topic": "software",
+    "type": "spot-the-bug",
+    "prompt": "A developer wants to see the differences in files that are already staged (ready to commit). What is wrong with their command?",
+    "code_snippet": "git diff",
+    "options": [
+      "`git diff` shows unstaged changes \u2014 use `git diff --staged` for staged changes",
+      "`git diff` only works after a commit has been made",
+      "Must pass the branch name: `git diff main`",
+      "`git diff` requires a file path argument"
+    ],
+    "correct_answer": "`git diff` shows unstaged changes \u2014 use `git diff --staged` for staged changes",
+    "explanation": "`git diff` (no arguments) compares the working directory against the index \u2014 it shows unstaged changes. To see what is staged vs the last commit, use `git diff --staged` (also `--cached`). These are two different views.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-080",
+    "date": "2026-04-25",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "You are building semantic search over 1 million product descriptions \u2014 users should be able to search by meaning, not just keywords. Which storage solution is most appropriate?",
+    "options": [
+      "A relational database with LIKE queries",
+      "A full-text search engine using BM25 (e.g. Elasticsearch)",
+      "A vector database storing embedding vectors (e.g. Pinecone, pgvector)",
+      "A key-value store like Redis"
+    ],
+    "correct_answer": "A vector database storing embedding vectors (e.g. Pinecone, pgvector)",
+    "explanation": "Semantic search requires finding documents by meaning. Embeddings convert text into high-dimensional vectors where semantically similar items cluster together. Vector databases enable fast approximate nearest-neighbour (ANN) search over millions of vectors. LIKE queries and BM25 match keywords, not meaning.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-095",
+    "date": "2026-04-25",
+    "topic": "dsa",
+    "type": "spot-the-bug",
+    "prompt": "This binary search returns the wrong index for some inputs. What is the bug?",
+    "code_snippet": "def binary_search(arr, target):\n    lo, hi = 0, len(arr)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid\n    return -1",
+    "options": [
+      "`mid` should use `lo + (hi - lo) // 2` to avoid overflow",
+      "`hi` is initialised to `len(arr)` instead of `len(arr) - 1`, risking an out-of-bounds access",
+      "The `while` condition should be `lo <= hi`",
+      "Should return `lo` instead of `-1` when not found"
+    ],
+    "correct_answer": "`hi` is initialised to `len(arr)` instead of `len(arr) - 1`, risking an out-of-bounds access",
+    "explanation": "When `lo = len(arr) - 1` and `hi = len(arr)`, `mid = len(arr) - 1` which is fine \u2014 but initialising `hi` to `len(arr)` is a half-open interval style. The real risk: if the loop ever sets `mid = hi = len(arr)`, `arr[mid]` is out of bounds. Use `hi = len(arr) - 1` and `while lo <= hi` for the closed-interval form.",
+    "difficulty": "hard"
+  }
+]

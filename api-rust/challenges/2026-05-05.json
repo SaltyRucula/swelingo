@@ -1,0 +1,115 @@
+[
+  {
+    "id": "ch-117",
+    "date": "2026-05-05",
+    "topic": "frontend",
+    "type": "logic-puzzle",
+    "prompt": "You want to prevent a parent element's click handler from firing when a child button is clicked. Which method do you call?",
+    "options": [
+      "event.preventDefault()",
+      "event.stopPropagation()",
+      "event.stopImmediatePropagation()",
+      "return false from the handler"
+    ],
+    "correct_answer": "event.stopPropagation()",
+    "explanation": "`stopPropagation()` prevents the event from bubbling up to parent elements. `preventDefault()` prevents the browser's default action (e.g. following a link) but does not stop bubbling. `return false` in jQuery does both, but in native DOM only `stopPropagation()` stops the bubble.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-118",
+    "date": "2026-05-05",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between a Docker image and a Docker container?",
+    "options": [
+      "They are the same thing \u2014 different words for the same concept",
+      "An image is a read-only blueprint; a container is a running instance of an image",
+      "A container is stored on disk; an image runs in memory",
+      "Images are for Linux; containers are for Windows"
+    ],
+    "correct_answer": "An image is a read-only blueprint; a container is a running instance of an image",
+    "explanation": "A Docker image is an immutable, layered filesystem snapshot \u2014 a template. A container is a live, isolated process created from that image with a writable layer on top. Multiple containers can run from the same image simultaneously, each with independent state.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-119",
+    "date": "2026-05-05",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "Your users authenticate with JWTs. A user reports their account was compromised and you need to immediately invalidate their token. What is the problem with stateless JWTs?",
+    "options": [
+      "JWTs cannot be decoded without the secret key",
+      "JWTs are stateless \u2014 the server has no record of them, so you cannot invalidate a token before it expires",
+      "JWTs automatically expire after 5 minutes",
+      "You can invalidate a JWT by updating the user's record in the database"
+    ],
+    "correct_answer": "JWTs are stateless \u2014 the server has no record of them, so you cannot invalidate a token before it expires",
+    "explanation": "Stateless JWTs carry their validity period in the payload. The server verifies the signature without checking any database, so there is no server-side record to delete. Solutions: short expiry + refresh tokens, a token blocklist (denylist) in Redis, or rotating the signing secret (invalidates all tokens).",
+    "difficulty": "hard"
+  },
+  {
+    "id": "ch-120",
+    "date": "2026-05-05",
+    "topic": "data",
+    "type": "spot-the-bug",
+    "prompt": "A data pipeline reads a large CSV file into a pandas DataFrame. What is the memory problem?",
+    "code_snippet": "import pandas as pd\ndf = pd.read_csv('logs.csv')\nfor chunk in df.iterrows():\n    process(chunk)",
+    "options": [
+      "`iterrows()` is not a valid method",
+      "The entire 10GB CSV is loaded into RAM before any processing begins",
+      "CSV files cannot be read with pandas",
+      "`iterrows()` is the most memory-efficient way to process large files"
+    ],
+    "correct_answer": "The entire 10GB CSV is loaded into RAM before any processing begins",
+    "explanation": "`pd.read_csv()` without `chunksize` loads the complete file into memory. For large files, use `pd.read_csv('logs.csv', chunksize=10000)` which returns an iterator of DataFrames, processing one chunk at a time without loading everything at once.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-121",
+    "date": "2026-05-05",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What does a Conventional Commits message format like `feat(auth): add OAuth login` tell you?",
+    "options": [
+      "Nothing \u2014 it is just a naming convention with no structure",
+      "The type (feat), scope (auth), and a short description \u2014 enables automated changelogs and semantic versioning",
+      "The file path that was changed",
+      "The branch the commit came from"
+    ],
+    "correct_answer": "The type (feat), scope (auth), and a short description \u2014 enables automated changelogs and semantic versioning",
+    "explanation": "Conventional Commits define a structured message format: `<type>(<scope>): <description>`. Types like `feat`, `fix`, `chore`, `docs` allow tools to automatically generate changelogs and determine semantic version bumps (feat \u2192 minor, fix \u2192 patch, BREAKING CHANGE \u2192 major).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-122",
+    "date": "2026-05-05",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "A developer uses an embedding model to power search. They upgrade to a new, better embedding model. What must they do with the existing vector database?",
+    "options": [
+      "Nothing \u2014 embeddings from different models are compatible",
+      "Re-embed all documents with the new model, then replace the existing vectors in the database",
+      "Multiply the existing vectors by a conversion factor",
+      "Only re-embed documents added in the last 30 days"
+    ],
+    "correct_answer": "Re-embed all documents with the new model, then replace the existing vectors in the database",
+    "explanation": "Each embedding model has its own vector space \u2014 vectors from different models are not comparable and live in incompatible spaces. Searching new query embeddings against old document embeddings produces meaningless results. When switching models you must re-embed everything and rebuild the index.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-123",
+    "date": "2026-05-05",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "Which sorting algorithm is stable and has O(n log n) worst-case time complexity?",
+    "options": [
+      "QuickSort",
+      "Heap Sort",
+      "Merge Sort",
+      "Selection Sort"
+    ],
+    "correct_answer": "Merge Sort",
+    "explanation": "Merge Sort is stable (preserves the relative order of equal elements) and guarantees O(n log n) in all cases. QuickSort is O(n\u00b2) worst case (though O(n log n) average). Heap Sort is O(n log n) but not stable. Selection Sort is O(n\u00b2).",
+    "difficulty": "medium"
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-173",
+    "date": "2026-05-13",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this code log?",
+    "code_snippet": "const promise = new Promise((resolve) => {\n  resolve(1);\n  resolve(2);\n});\npromise.then(v => console.log(v));",
+    "options": [
+      "1 and 2",
+      "1",
+      "2",
+      "undefined"
+    ],
+    "correct_answer": "1",
+    "explanation": "A Promise can only be resolved or rejected once. Once `resolve(1)` is called, the promise is settled and subsequent calls to `resolve` or `reject` are ignored. The `.then` callback receives `1`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-174",
+    "date": "2026-05-13",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "What is the purpose of a `.dockerignore` file?",
+    "options": [
+      "To list Docker containers that should not start",
+      "To exclude files and directories from the Docker build context, reducing image size and build time",
+      "To ignore Docker Hub registry errors",
+      "To list images that should never be pulled"
+    ],
+    "correct_answer": "To exclude files and directories from the Docker build context, reducing image size and build time",
+    "explanation": "The build context is everything sent from the client to the Docker daemon when building an image. Without `.dockerignore`, large directories like `node_modules/`, `.git/`, test files, and secrets get included, slowing the build and bloating the image. `.dockerignore` works exactly like `.gitignore`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-175",
+    "date": "2026-05-13",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "What is the purpose of database migrations?",
+    "options": [
+      "Moving data from one database server to another",
+      "Version-controlled, incremental SQL scripts that evolve the database schema alongside the application code",
+      "Backing up the database before deploying",
+      "Copying data between development and production environments"
+    ],
+    "correct_answer": "Version-controlled, incremental SQL scripts that evolve the database schema alongside the application code",
+    "explanation": "Migrations track schema changes (CREATE TABLE, ALTER COLUMN, ADD INDEX) in version-controlled files. Tools like Flyway, Alembic, and Rails migrations apply them in order, keeping dev/staging/prod schemas in sync. Without migrations, database changes are ad-hoc and impossible to reproduce reliably.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-176",
+    "date": "2026-05-13",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "What is a window function in SQL and when would you use it?",
+    "options": [
+      "A function that only works on the visible rows of a query result",
+      "A function that performs calculations across a set of rows related to the current row without collapsing them into a group",
+      "A function that opens a connection to an external data source",
+      "A synonym for GROUP BY"
+    ],
+    "correct_answer": "A function that performs calculations across a set of rows related to the current row without collapsing them into a group",
+    "explanation": "Window functions (ROW_NUMBER, RANK, LAG, SUM OVER PARTITION) compute values across a window of rows while keeping each row in the output. Example: `SUM(sales) OVER (PARTITION BY region ORDER BY date)` gives a running total per region. Unlike GROUP BY, they do not collapse rows \u2014 great for rankings, moving averages, and running totals.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-177",
+    "date": "2026-05-13",
+    "topic": "software",
+    "type": "predict-output",
+    "prompt": "You run `git stash` and then `git stash pop` on a clean working directory. What is the result?",
+    "options": [
+      "All uncommitted changes are permanently deleted",
+      "Nothing changes \u2014 stash was empty so nothing was stored or restored",
+      "The last commit is reverted",
+      "Git throws an error if there is nothing to stash"
+    ],
+    "correct_answer": "Git throws an error if there is nothing to stash",
+    "explanation": "`git stash` with no changes says 'No local changes to save' and the stash is empty. A subsequent `git stash pop` will error with 'No stash entries found'. Git does not stash clean working trees by default (add `--include-untracked` to also stash untracked files).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-178",
+    "date": "2026-05-13",
+    "topic": "ai",
+    "type": "spot-the-bug",
+    "prompt": "A developer uses the following prompt for a multi-step task. What is the structural problem?",
+    "code_snippet": "Prompt: \"Analyse the data, identify trends, write a summary, create visualisation recommendations, suggest next steps, and also check for outliers.\"",
+    "options": [
+      "The prompt is too short",
+      "Too many tasks in one prompt \u2014 the model may miss steps, confuse them, or produce lower quality on each",
+      "LLMs cannot handle more than one sentence",
+      "The word 'also' makes the instruction ambiguous"
+    ],
+    "correct_answer": "Too many tasks in one prompt \u2014 the model may miss steps, confuse them, or produce lower quality on each",
+    "explanation": "Cramming multiple distinct tasks into one prompt reduces quality on each. Better approach: either break into sequential prompts (each builds on the last), or use a structured prompt with numbered steps and ask the model to complete each explicitly before moving to the next. For complex pipelines, use an agentic multi-step workflow.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-179",
+    "date": "2026-05-13",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the time complexity of building a heap from an unsorted array of n elements?",
+    "options": [
+      "O(n log n)",
+      "O(n\u00b2)",
+      "O(n)",
+      "O(log n)"
+    ],
+    "correct_answer": "O(n)",
+    "explanation": "Naively calling heappush n times is O(n log n). However, the heapify algorithm (bottom-up, using sift-down from the last non-leaf) builds a valid heap in O(n) time. This is a classic result: the sum of sift-down work at each level converges to O(n). Python's `heapq.heapify()` uses this approach.",
+    "difficulty": "hard"
+  }
+]

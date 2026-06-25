@@ -1,0 +1,35 @@
+# ── Dependencies ─────────────────────────────────────────────────────────────
+node_modules/
+app/node_modules/
+
+# ── Build output ─────────────────────────────────────────────────────────────
+api-rust/target/
+dist/
+app/dist/
+app/web-build/
+.expo/
+
+# ── Secrets & certs (never commit) ───────────────────────────────────────────
+# Tracked example files (.env.example, .env.pi.example) are NOT matched by these.
+.env
+.env.local
+*.pem
+*.key
+
+# ── Logs & OS cruft ──────────────────────────────────────────────────────────
+*.log
+logs/
+.DS_Store
+
+# ── AI / agent workflow scaffolding (kept local, never pushed) ────────────────
+.specify/
+AGENTS.md
+CLAUDE.md
+CODEBASE_GUIDE.md
+PROMPT_build.md
+PROMPT_plan.md
+history.md
+history/
+completion_log/
+specs/
+scripts/ralph-loop*.sh

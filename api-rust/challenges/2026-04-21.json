@@ -1,0 +1,118 @@
+[
+  {
+    "id": "ch-011",
+    "date": "2026-04-21",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This async function should fetch a user and return their name. What is wrong?",
+    "code_snippet": "async function getUserName(id) {\n  const res = fetch(`/api/users/${id}`);\n  const data = await res.json();\n  return data.name;\n}",
+    "options": [
+      "Template literals are not supported in async functions",
+      "`fetch` call is missing `await`",
+      "`res.json()` should not be awaited",
+      "The function should not be `async`"
+    ],
+    "correct_answer": "`fetch` call is missing `await`",
+    "explanation": "`fetch()` returns a Promise. Without `await`, `res` is a Promise object, not a Response \u2014 so `res.json()` will throw because Promise has no `.json()` method. It should be `const res = await fetch(...)`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-012",
+    "date": "2026-04-21",
+    "topic": "devops",
+    "type": "predict-output",
+    "prompt": "What does this command do?",
+    "code_snippet": "chmod 644 file.txt",
+    "options": [
+      "Owner: read/write/execute; Group & Others: read",
+      "Owner: read/write; Group & Others: read",
+      "Owner: read/write; Group: read/write; Others: read",
+      "Everyone: read/write"
+    ],
+    "correct_answer": "Owner: read/write; Group & Others: read",
+    "explanation": "In octal, 6 = read(4)+write(2), 4 = read only. So 644 means owner has rw-, group has r--, others have r--. This is the standard permission for non-executable files.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-013",
+    "date": "2026-04-21",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "Your API returns the same expensive query result to thousands of users. The data changes at most once per hour. What is the best strategy?",
+    "options": [
+      "Run the query fresh on every request",
+      "Cache the result with a 1-hour TTL",
+      "Pre-compute and store result in a file on disk",
+      "Switch to a faster database"
+    ],
+    "correct_answer": "Cache the result with a 1-hour TTL",
+    "explanation": "A cache with a TTL matching the data's update frequency (1 hour) serves thousands of requests without hitting the database at all, until the cache expires. Pre-computing to disk works but is harder to invalidate; a faster DB still runs the query on every request.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-014",
+    "date": "2026-04-21",
+    "topic": "data",
+    "type": "spot-the-bug",
+    "prompt": "This code tries to count word frequencies. What is wrong?",
+    "code_snippet": "words = ['apple', 'banana', 'apple', 'cherry']\ncounts = {}\nfor word in words:\n    counts[word] =+ 1\nprint(counts)",
+    "options": [
+      "Should use a list instead of a dict",
+      "`=+` should be `+=`",
+      "The loop variable should not shadow built-ins",
+      "Dict keys must be integers"
+    ],
+    "correct_answer": "`=+` should be `+=`",
+    "explanation": "`=+` is not `+=`. It is parsed as `counts[word] = (+1)`, which assigns `1` on every iteration rather than incrementing. The result would be `{'apple': 1, 'banana': 1, 'cherry': 1}`. Change to `counts[word] = counts.get(word, 0) + 1` or use `collections.Counter`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-015",
+    "date": "2026-04-21",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "You want to bring one specific commit from another branch into your current branch, without merging the whole branch. Which command does this?",
+    "options": [
+      "git merge <branch>",
+      "git rebase <branch>",
+      "git cherry-pick <commit-hash>",
+      "git apply <commit-hash>"
+    ],
+    "correct_answer": "git cherry-pick <commit-hash>",
+    "explanation": "`git cherry-pick` applies the changes from a specific commit onto your current branch as a new commit. `git merge` brings in all commits from a branch; `git rebase` replays your branch on top of another; `git apply` works with patch files, not commit hashes.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-076",
+    "date": "2026-04-21",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "An AI agent is given a tool to execute shell commands. A user asks it to \"clean up old log files.\" Which safety measure is most critical?",
+    "options": [
+      "Use a faster LLM so it completes the task before the user can intervene",
+      "Add retry logic so the agent re-attempts failed commands",
+      "Require explicit human approval before the agent executes any destructive command",
+      "Log all commands to a file for later review"
+    ],
+    "correct_answer": "Require explicit human approval before the agent executes any destructive command",
+    "explanation": "Agents with tool access can cause irreversible harm when misinterpreting vague instructions. A human-in-the-loop gate for destructive or irreversible actions is the most critical safeguard. Logging helps after the fact but does not prevent damage.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-091",
+    "date": "2026-04-21",
+    "topic": "dsa",
+    "type": "predict-output",
+    "prompt": "Given a stack, you push 1, 2, 3, then pop twice. What value do you peek at next?",
+    "code_snippet": "stack = []\nstack.append(1)\nstack.append(2)\nstack.append(3)\nstack.pop()\nstack.pop()\n# peek\nprint(stack[-1])",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "IndexError"
+    ],
+    "correct_answer": "1",
+    "explanation": "A stack is LIFO. After pushing 1, 2, 3 the top is 3. Two pops remove 3 then 2. The remaining element \u2014 and therefore the peek \u2014 is 1.",
+    "difficulty": "easy"
+  }
+]

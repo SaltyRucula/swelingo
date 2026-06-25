@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-201",
+    "date": "2026-05-17",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This React component should display a count that increases on click. What is wrong?",
+    "code_snippet": "function Counter() {\n  let count = 0;\n  return (\n    <button onClick={() => { count += 1; }}>\n      Count: {count}\n    </button>\n  );\n}",
+    "options": [
+      "Arrow functions cannot be used in onClick",
+      "count is a local variable \u2014 changing it does not trigger a re-render; use useState",
+      "JSX cannot interpolate variables",
+      "The button tag must be self-closing"
+    ],
+    "correct_answer": "count is a local variable \u2014 changing it does not trigger a re-render; use useState",
+    "explanation": "In React, only state changes trigger re-renders. A plain `let` variable is reset to 0 on every render, and mutating it has no effect on the UI. Fix: `const [count, setCount] = useState(0)` and call `setCount(count + 1)` in the handler.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-202",
+    "date": "2026-05-17",
+    "topic": "devops",
+    "type": "predict-output",
+    "prompt": "What does `ps aux | grep nginx` do?",
+    "options": [
+      "Restarts nginx and logs the output",
+      "Lists all running processes and filters lines containing 'nginx'",
+      "Shows the nginx config file",
+      "Kills all nginx processes"
+    ],
+    "correct_answer": "Lists all running processes and filters lines containing 'nginx'",
+    "explanation": "`ps aux` shows all running processes with their user, PID, CPU/memory usage, and command. The `|` pipes that output to `grep nginx`, which keeps only lines matching 'nginx'. It's a quick way to check if nginx is running and see its PID.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-203",
+    "date": "2026-05-17",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "A user submits a form that takes 10 seconds to process. You don't want the HTTP request to hang for 10 seconds. What pattern solves this?",
+    "options": [
+      "Increase the server timeout to 60 seconds",
+      "Accept the request, return 202 Accepted immediately, and process in a background job",
+      "Process faster by using a faster language",
+      "Use WebSockets instead of HTTP"
+    ],
+    "correct_answer": "Accept the request, return 202 Accepted immediately, and process in a background job",
+    "explanation": "202 Accepted means 'I've received your request and will process it'. The actual work is pushed to a background queue (e.g. Sidekiq, Celery, BullMQ). The client can poll a status endpoint or receive a webhook when done. This keeps request latency low and the system responsive.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-204",
+    "date": "2026-05-17",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What is the output of this Python code?",
+    "code_snippet": "x = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)",
+    "options": [
+      "[1, 2, 3]",
+      "[1, 2, 3, 4]",
+      "[4]",
+      "TypeError"
+    ],
+    "correct_answer": "[1, 2, 3, 4]",
+    "explanation": "In Python, `y = x` does not copy the list \u2014 both `x` and `y` point to the same list object in memory. Appending to `y` therefore also changes what `x` sees. To get an independent copy, use `y = x.copy()` or `y = list(x)` or `y = x[:]`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-205",
+    "date": "2026-05-17",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is the Open/Closed Principle (OCP) in SOLID?",
+    "options": [
+      "Classes should be open for extension but closed for modification",
+      "Only one class should be responsible for opening and closing files",
+      "Public methods should be open; private methods should be closed",
+      "Modules should close their dependencies through interfaces"
+    ],
+    "correct_answer": "Classes should be open for extension but closed for modification",
+    "explanation": "OCP states that software entities should allow new behavior to be added (open for extension) without changing existing code (closed for modification). Typically achieved via inheritance, interfaces, or composition. For example, adding a new payment method should not require editing the existing PaymentProcessor class.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-206",
+    "date": "2026-05-17",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "What is 'temperature' in the context of LLM inference?",
+    "options": [
+      "The GPU temperature during model training",
+      "A parameter controlling output randomness: higher = more creative/random, lower = more deterministic",
+      "The number of tokens generated per second",
+      "The number of layers in the neural network"
+    ],
+    "correct_answer": "A parameter controlling output randomness: higher = more creative/random, lower = more deterministic",
+    "explanation": "Temperature scales the logits before the softmax in token sampling. At temperature 0 the model always picks the highest-probability token (greedy/deterministic). Higher values (e.g. 1.5) flatten the distribution, making lower-probability tokens more likely and outputs more varied. Temperature 1.0 is the model's 'natural' distribution.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-207",
+    "date": "2026-05-17",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "You need to frequently look up values by key in O(1) average time. Which data structure do you choose?",
+    "options": [
+      "Array",
+      "Linked list",
+      "Hash map (dictionary)",
+      "Binary search tree"
+    ],
+    "correct_answer": "Hash map (dictionary)",
+    "explanation": "Hash maps compute a hash of the key to find the bucket directly, giving O(1) average-case lookup, insertion, and deletion. Arrays need O(n) to search by value. Binary search trees give O(log n). Linked lists need O(n). Hash maps are the go-to for key-value lookups.",
+    "difficulty": "easy"
+  }
+]

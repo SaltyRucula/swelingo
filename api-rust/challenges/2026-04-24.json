@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-028",
+    "date": "2026-04-24",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this snippet log?",
+    "code_snippet": "console.log(1 + \"2\" + 3);",
+    "options": [
+      "6",
+      "\"123\"",
+      "\"15\"",
+      "NaN"
+    ],
+    "correct_answer": "\"123\"",
+    "explanation": "JS evaluates left to right. `1 + \"2\"` coerces `1` to the string `\"1\"`, giving `\"12\"`. Then `\"12\" + 3` coerces `3` to `\"3\"`, giving `\"123\"`. The `+` operator switches to string concatenation as soon as either operand is a string.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-029",
+    "date": "2026-04-24",
+    "topic": "devops",
+    "type": "spot-the-bug",
+    "prompt": "A developer wants to append a log line to a file every time the script runs. What is wrong?",
+    "code_snippet": "echo \"Script started\" > app.log",
+    "options": [
+      "`>` overwrites the file each time \u2014 should use `>>` to append",
+      "`echo` cannot write to files",
+      "The filename must end in `.txt`",
+      "Quotes around the string are not allowed"
+    ],
+    "correct_answer": "`>` overwrites the file each time \u2014 should use `>>` to append",
+    "explanation": "`>` truncates the file to zero bytes before writing. Every script run destroys previous log lines. `>>` appends to the file, preserving existing content \u2014 which is the correct behaviour for a log.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-030",
+    "date": "2026-04-24",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "Which HTTP method should be used to partially update an existing resource (e.g., change only a user's email)?",
+    "options": [
+      "PUT",
+      "PATCH",
+      "POST",
+      "UPDATE"
+    ],
+    "correct_answer": "PATCH",
+    "explanation": "`PUT` replaces the entire resource with the request body. `PATCH` applies a partial update \u2014 only the provided fields are changed. `UPDATE` is not an HTTP method. Use `PATCH` when you want to change one field without sending the whole object.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-031",
+    "date": "2026-04-24",
+    "topic": "data",
+    "type": "spot-the-bug",
+    "prompt": "This code tries to count word frequencies. What is wrong?",
+    "code_snippet": "words = ['cat', 'dog', 'cat', 'bird']\ncounts = {}\nfor word in words:\n    counts[word] =+ 1\nprint(counts)",
+    "options": [
+      "Should use a list instead of a dict",
+      "`=+` should be `+=`",
+      "The loop variable `word` shadows a built-in",
+      "Dict keys cannot be strings"
+    ],
+    "correct_answer": "`=+` should be `+=`",
+    "explanation": "`=+` is parsed as `counts[word] = (+1)` \u2014 it assigns the unary positive of `1` every iteration rather than incrementing. Result: every word maps to `1`. Fix: `counts[word] = counts.get(word, 0) + 1` or initialise first and use `+=`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-032",
+    "date": "2026-04-24",
+    "topic": "software",
+    "type": "predict-output",
+    "prompt": "What does `git log --oneline -3` display?",
+    "options": [
+      "The last 3 commits, each summarised on one line",
+      "A 3-line description of the most recent commit",
+      "The 3 most recently staged files",
+      "The full diff of the last 3 commits"
+    ],
+    "correct_answer": "The last 3 commits, each summarised on one line",
+    "explanation": "`--oneline` formats each commit as its abbreviated hash plus subject line. `-3` (shorthand for `-n 3`) limits output to the 3 most recent commits. This is the fastest way to get a quick history overview.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-079",
+    "date": "2026-04-24",
+    "topic": "ai",
+    "type": "predict-output",
+    "prompt": "A developer calls an LLM API with `temperature: 0` and runs the exact same prompt 10 times. What do they most likely observe?",
+    "options": [
+      "Each response is completely different \u2014 temperature has no effect on randomness",
+      "All 10 responses are near-identical \u2014 temperature=0 is greedy/deterministic, though minor hardware variance may occur",
+      "The API throws an error because temperature must be greater than 0",
+      "The responses alternate between two fixed outputs"
+    ],
+    "correct_answer": "All 10 responses are near-identical \u2014 temperature=0 is greedy/deterministic, though minor hardware variance may occur",
+    "explanation": "Temperature=0 makes the model greedily select the highest-probability token at each step, producing near-deterministic output. In practice, floating-point non-determinism across GPU runs can cause rare minor variations, but most providers treat temperature=0 as best-effort deterministic.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-094",
+    "date": "2026-04-24",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "Which approach solves the classic 'climbing stairs' problem (you can climb 1 or 2 steps at a time) in O(n) time and O(1) space?",
+    "options": [
+      "Recursive backtracking",
+      "Memoised recursion (top-down DP)",
+      "Iterative DP keeping only the last two values",
+      "Binary search on the answer"
+    ],
+    "correct_answer": "Iterative DP keeping only the last two values",
+    "explanation": "ways(n) = ways(n-1) + ways(n-2) (Fibonacci-like). You only need the previous two values, so you can iterate and update two variables \u2014 O(n) time, O(1) space. Memoised recursion is O(n) time but O(n) space due to the call stack.",
+    "difficulty": "medium"
+  }
+]

@@ -1,0 +1,118 @@
+[
+  {
+    "id": "ch-023",
+    "date": "2026-04-23",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This async function should fetch a user and return the parsed JSON. What is wrong?",
+    "code_snippet": "async function getUser(id) {\n  const res = fetch(`https://api.example.com/users/${id}`);\n  const data = await res.json();\n  return data;\n}",
+    "options": [
+      "Template literals cannot be used inside async functions",
+      "`fetch` call is missing `await`",
+      "`res.json()` should not be awaited",
+      "The function should not be `async`"
+    ],
+    "correct_answer": "`fetch` call is missing `await`",
+    "explanation": "Without `await`, `res` is a Promise object, not a Response. Calling `.json()` on a Promise throws a TypeError. It should be `const res = await fetch(...)`.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-024",
+    "date": "2026-04-23",
+    "topic": "devops",
+    "type": "predict-output",
+    "prompt": "What does this command print?",
+    "code_snippet": "echo \"hello world\" | tr 'a-z' 'A-Z'",
+    "options": [
+      "hello world",
+      "HELLO WORLD",
+      "Hello World",
+      "Nothing \u2014 tr only works on files"
+    ],
+    "correct_answer": "HELLO WORLD",
+    "explanation": "`tr 'a-z' 'A-Z'` translates each lowercase letter to its uppercase equivalent. The input `hello world` becomes `HELLO WORLD`. `tr` operates on stdin by default \u2014 no file needed.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-025",
+    "date": "2026-04-23",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "Your web app serves millions of static assets (images, CSS, JS) globally. Users in Asia report slow loads but your origin server is in Europe. What is the best fix?",
+    "options": [
+      "Increase the origin server's bandwidth",
+      "Use a Content Delivery Network (CDN)",
+      "Switch the API from REST to GraphQL",
+      "Add more database indexes"
+    ],
+    "correct_answer": "Use a Content Delivery Network (CDN)",
+    "explanation": "A CDN caches static assets at edge nodes distributed around the world. Users are served from the closest node, dramatically reducing latency regardless of where the origin is. Bandwidth increases or API changes do not solve geographic distance.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-026",
+    "date": "2026-04-23",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What is printed by this code?",
+    "code_snippet": "print(0.1 + 0.2 == 0.3)",
+    "options": [
+      "True",
+      "False",
+      "0.3",
+      "TypeError"
+    ],
+    "correct_answer": "False",
+    "explanation": "Floating-point numbers cannot represent most decimal fractions exactly in binary. `0.1 + 0.2` evaluates to approximately `0.30000000000000004`, not exactly `0.3`, so the comparison returns `False`. Use `math.isclose()` for float comparisons.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-027",
+    "date": "2026-04-23",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between `git stash pop` and `git stash apply`?",
+    "options": [
+      "They are identical",
+      "`pop` applies the stash and removes it from the stash list; `apply` keeps the entry",
+      "`pop` only works on the most recent stash; `apply` works on any index",
+      "`apply` is deprecated in favor of `pop`"
+    ],
+    "correct_answer": "`pop` applies the stash and removes it from the stash list; `apply` keeps the entry",
+    "explanation": "Both commands restore stashed changes to your working directory. `pop` also removes that stash entry (treating the stash like a stack). `apply` leaves the entry so you can apply it to another branch or re-apply it later.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-078",
+    "date": "2026-04-23",
+    "topic": "ai",
+    "type": "spot-the-bug",
+    "prompt": "A developer builds a citation bot: ask the LLM a question and get an answer with sources. What is the fundamental problem with this approach?",
+    "code_snippet": "const answer = await llm.ask(\n  `${question}\\nPlease include citations to your sources.`\n);",
+    "options": [
+      "The template literal syntax is incorrect",
+      "The question should be sent in the system prompt, not the user message",
+      "LLMs generate plausible-looking citations that may not exist \u2014 they do not retrieve from the web",
+      "This only works with GPT-4 and not other models"
+    ],
+    "correct_answer": "LLMs generate plausible-looking citations that may not exist \u2014 they do not retrieve from the web",
+    "explanation": "LLMs can fabricate realistic-looking citations \u2014 author names, paper titles, journal names, URLs \u2014 that simply do not exist. This is called hallucination. For reliable citations, use a RAG pipeline that retrieves real documents first and attributes answers directly to them.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-093",
+    "date": "2026-04-23",
+    "topic": "dsa",
+    "type": "logic-puzzle",
+    "prompt": "What is the worst-case time complexity of QuickSort?",
+    "options": [
+      "O(n log n)",
+      "O(n)",
+      "O(n\u00b2)",
+      "O(log n)"
+    ],
+    "correct_answer": "O(n\u00b2)",
+    "explanation": "QuickSort's worst case occurs when the pivot is always the smallest or largest element (e.g. already-sorted input with a naive pivot choice), producing partitions of size 0 and n-1 each time \u2014 O(n\u00b2) comparisons. Randomised pivot or median-of-three makes this extremely unlikely in practice.",
+    "difficulty": "medium"
+  }
+]

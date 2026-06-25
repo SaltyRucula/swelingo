@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ch-187",
+    "date": "2026-05-15",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This TypeScript code has a type error. What is wrong?",
+    "code_snippet": "function greet(name: string): string {\n  if (name) {\n    return `Hello, ${name}`;\n  }\n  // missing return\n}",
+    "options": [
+      "Template literals are not allowed in TypeScript",
+      "The function is declared to return string but may return undefined when name is falsy",
+      "if statements cannot be used in typed functions",
+      "The parameter should be `name?: string`"
+    ],
+    "correct_answer": "The function is declared to return string but may return undefined when name is falsy",
+    "explanation": "TypeScript's strict mode (`noImplicitReturns`) requires all code paths to return a value. When `name` is falsy (empty string, undefined), the function falls off the end and returns `undefined`, violating the `string` return type. Fix: add `return ''` or `return 'Anonymous'` after the if block, or change the return type to `string | undefined`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-188",
+    "date": "2026-05-15",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "What is the purpose of `HEALTHCHECK` in a Dockerfile?",
+    "options": [
+      "To check if the Dockerfile syntax is valid",
+      "To configure a command that Docker runs periodically to determine if the container is healthy",
+      "To verify the base image has no vulnerabilities",
+      "To test the build before pushing to a registry"
+    ],
+    "correct_answer": "To configure a command that Docker runs periodically to determine if the container is healthy",
+    "explanation": "`HEALTHCHECK CMD curl -f http://localhost/health || exit 1` tells Docker to run that command every 30s (by default). If it fails repeatedly, the container is marked 'unhealthy'. Docker Compose and Kubernetes can use this status to avoid sending traffic to unhealthy containers.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-189",
+    "date": "2026-05-15",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between optimistic and pessimistic locking?",
+    "options": [
+      "Optimistic locking uses `SELECT FOR UPDATE`; pessimistic uses transactions",
+      "Pessimistic locking acquires a lock before reading; optimistic reads without locking and detects conflicts at write time using a version field",
+      "Optimistic locking is for single-user systems only",
+      "They are two names for the same database feature"
+    ],
+    "correct_answer": "Pessimistic locking acquires a lock before reading; optimistic reads without locking and detects conflicts at write time using a version field",
+    "explanation": "Pessimistic: assume conflicts are likely \u2014 lock the row (`SELECT FOR UPDATE`) for the duration of the operation. Good for high contention. Optimistic: assume conflicts are rare \u2014 read without locking, but check a version/timestamp at write time. If another write happened, retry. Good for low-contention, read-heavy systems.",
+    "difficulty": "hard"
+  },
+  {
+    "id": "ch-190",
+    "date": "2026-05-15",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "What is data normalisation in relational databases and what problem does it solve?",
+    "options": [
+      "Compressing data to reduce storage",
+      "Organising data to reduce redundancy and ensure integrity \u2014 each fact is stored in one place",
+      "Converting all data to uppercase",
+      "Sorting data in alphabetical order"
+    ],
+    "correct_answer": "Organising data to reduce redundancy and ensure integrity \u2014 each fact is stored in one place",
+    "explanation": "Normalisation (1NF, 2NF, 3NF) eliminates data duplication by breaking tables into smaller ones connected by foreign keys. Example: storing a customer's city in every order row vs. a separate customers table. Duplicated data creates update anomalies \u2014 change the city in one row and it becomes inconsistent with others. Normalisation prevents this.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-191",
+    "date": "2026-05-15",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is the Open/Closed Principle (the O in SOLID)?",
+    "options": [
+      "Code should be open source",
+      "Software entities should be open for extension but closed for modification",
+      "Functions should be closed when not in use",
+      "Public APIs should be open; internal APIs should be closed"
+    ],
+    "correct_answer": "Software entities should be open for extension but closed for modification",
+    "explanation": "The Open/Closed Principle says you should be able to add new behaviour without changing existing, tested code. This is typically achieved through abstraction \u2014 interfaces, inheritance, or composition. Example: instead of adding a new `if` branch to a function, add a new class that implements an interface. Existing code stays untouched.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-192",
+    "date": "2026-05-15",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "What is 'grounding' in the context of LLM applications?",
+    "options": [
+      "Setting temperature to 0 to make responses deterministic",
+      "Anchoring the model's responses to specific, verifiable source documents or data rather than relying on training knowledge alone",
+      "Adding a system prompt",
+      "Fine-tuning the model on proprietary data"
+    ],
+    "correct_answer": "Anchoring the model's responses to specific, verifiable source documents or data rather than relying on training knowledge alone",
+    "explanation": "Grounding connects LLM outputs to real sources \u2014 retrieved documents, database records, APIs. Instead of the model generating from memory (and potentially hallucinating), it is given the actual data and asked to answer based on it. RAG is the most common grounding technique. Well-grounded responses include citations that can be verified.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-193",
+    "date": "2026-05-15",
+    "topic": "dsa",
+    "type": "spot-the-bug",
+    "prompt": "This function is supposed to implement a queue using two stacks. The dequeue operation is wrong. What is the bug?",
+    "code_snippet": "class Queue:\n    def __init__(self):\n        self.s1 = []  # for enqueue\n        self.s2 = []  # for dequeue\n    def enqueue(self, x):\n        self.s1.append(x)\n    def dequeue(self):\n        if not self.s2:\n            while self.s1:\n                self.s2.append(self.s1.pop())\n        return self.s2.pop()  # bug here?",
+    "options": [
+      "s2.pop() removes from the end, but should remove from the front",
+      "There is no bug \u2014 this is a correct two-stack queue implementation",
+      "s1.pop() pops from the wrong end",
+      "The dequeue method should return s1.pop() instead"
+    ],
+    "correct_answer": "There is no bug \u2014 this is a correct two-stack queue implementation",
+    "explanation": "This is the classic two-stack queue. When dequeuing, pour s1 into s2 (reversing the order). Now s2 has the oldest element on top. `s2.pop()` removes that oldest element \u2014 correct FIFO behaviour. Amortised O(1) per operation. The implementation is correct.",
+    "difficulty": "hard"
+  }
+]

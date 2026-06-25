@@ -1,0 +1,119 @@
+[
+  {
+    "id": "ch-110",
+    "date": "2026-05-04",
+    "topic": "frontend",
+    "type": "predict-output",
+    "prompt": "What does this code log?",
+    "code_snippet": "console.log(0.1 + 0.2 === 0.3);",
+    "options": [
+      "true",
+      "false",
+      "TypeError",
+      "NaN"
+    ],
+    "correct_answer": "false",
+    "explanation": "Floating-point arithmetic in JavaScript (and most languages) cannot represent `0.1` or `0.2` exactly in binary. `0.1 + 0.2` evaluates to `0.30000000000000004`. To compare floats use `Math.abs(a - b) < Number.EPSILON`.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-111",
+    "date": "2026-05-04",
+    "topic": "devops",
+    "type": "spot-the-bug",
+    "prompt": "A Dockerfile copies the entire project before installing dependencies. What is the performance problem?",
+    "code_snippet": "FROM node:20\nWORKDIR /app\nCOPY . .\nRUN npm install",
+    "options": [
+      "COPY cannot use `.` as the source",
+      "Changing any source file invalidates the layer cache at COPY, forcing npm install to re-run on every build",
+      "npm install must run before COPY",
+      "The WORKDIR instruction is in the wrong position"
+    ],
+    "correct_answer": "Changing any source file invalidates the layer cache at COPY, forcing npm install to re-run on every build",
+    "explanation": "Docker layer caching works top to bottom. If `COPY . .` comes before `RUN npm install`, any change to any file \u2014 even a README \u2014 busts the cache and re-runs npm install. Fix: copy `package.json` and `package-lock.json` first, run `npm install`, then copy the rest of the source.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-112",
+    "date": "2026-05-04",
+    "topic": "backend",
+    "type": "spot-the-bug",
+    "prompt": "A developer stores passwords in the database like this. What is wrong?",
+    "code_snippet": "const passwordHash = crypto.createHash('md5').update(password).digest('hex');\nawait db.users.insert({ email, passwordHash });",
+    "options": [
+      "MD5 is not available in Node.js",
+      "MD5 is a fast, broken hash \u2014 passwords must be hashed with a slow, salted algorithm like bcrypt or Argon2",
+      "The hash should be base64 encoded, not hex",
+      "Passwords should be stored as plaintext for support purposes"
+    ],
+    "correct_answer": "MD5 is a fast, broken hash \u2014 passwords must be hashed with a slow, salted algorithm like bcrypt or Argon2",
+    "explanation": "MD5 is cryptographically broken and extremely fast \u2014 attackers can crack MD5 password databases in hours using GPU rainbow tables. Password hashing requires a slow, salted, work-factor-tunable algorithm like bcrypt, Argon2, or scrypt. Never use MD5, SHA-1, or even plain SHA-256 for passwords.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-113",
+    "date": "2026-05-04",
+    "topic": "data",
+    "type": "logic-puzzle",
+    "prompt": "A pandas DataFrame has 1 million rows. You need to add a new column that triples each value in the 'price' column. Which approach is fastest?",
+    "options": [
+      "A Python for loop iterating over each row with df.at[]",
+      "df.apply(lambda row: row['price'] * 3, axis=1)",
+      "df['price'] * 3 (vectorised operation)",
+      "A list comprehension over df['price'].tolist()"
+    ],
+    "correct_answer": "df['price'] * 3 (vectorised operation)",
+    "explanation": "Pandas vectorised operations use NumPy under the hood and process the entire column in compiled C code. A for loop calling `df.at[]` is 100\u20131000x slower because Python executes each iteration. `apply` is also slow \u2014 it loops in Python. Always prefer vectorised operations for bulk column transformations.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-114",
+    "date": "2026-05-04",
+    "topic": "software",
+    "type": "predict-output",
+    "prompt": "You run `git log --graph --oneline`. What does `--graph` add to the output?",
+    "options": [
+      "A bar chart of commit sizes",
+      "ASCII art showing the branch and merge topology",
+      "A colour-coded diff of each commit",
+      "The commit author's avatar in the terminal"
+    ],
+    "correct_answer": "ASCII art showing the branch and merge topology",
+    "explanation": "`--graph` draws the branch and merge history as an ASCII tree on the left side of the log output. Combined with `--oneline`, it gives a compact visual representation of how branches diverged and merged \u2014 very useful for understanding a complex history.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ch-115",
+    "date": "2026-05-04",
+    "topic": "ai",
+    "type": "spot-the-bug",
+    "prompt": "A chatbot stores the full conversation history in memory and sends it with every API call. What will eventually go wrong?",
+    "code_snippet": "const history = [];\nasync function chat(userMessage) {\n  history.push({ role: 'user', content: userMessage });\n  const response = await llm.call({ messages: history });\n  history.push({ role: 'assistant', content: response.content });\n  return response.content;\n}",
+    "options": [
+      "The history array is not properly initialised",
+      "The conversation will eventually exceed the model's context window, causing errors or truncation",
+      "LLMs cannot accept multi-turn conversation history",
+      "The response should be awaited inside the push call"
+    ],
+    "correct_answer": "The conversation will eventually exceed the model's context window, causing errors or truncation",
+    "explanation": "Storing unlimited history means the message array grows without bound. Long conversations will exceed the model's token limit, causing API errors or silent truncation of the oldest messages. Fix: implement sliding window (keep last N turns), summarisation of older history, or external memory with retrieval.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-116",
+    "date": "2026-05-04",
+    "topic": "dsa",
+    "type": "predict-output",
+    "prompt": "What does this Python code print?",
+    "code_snippet": "from collections import deque\nq = deque()\nq.append(1)\nq.append(2)\nq.append(3)\nprint(q.popleft())\nprint(q.popleft())",
+    "options": [
+      "3, 2",
+      "1, 2",
+      "1, 3",
+      "3, 3"
+    ],
+    "correct_answer": "1, 2",
+    "explanation": "A `deque` used as a queue follows FIFO (First In, First Out). `popleft()` removes from the front. Elements were added in order 1, 2, 3. The first `popleft()` returns 1, the second returns 2.",
+    "difficulty": "easy"
+  }
+]

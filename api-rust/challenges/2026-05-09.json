@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ch-145",
+    "date": "2026-05-09",
+    "topic": "frontend",
+    "type": "spot-the-bug",
+    "prompt": "This CSS is supposed to center a div both horizontally and vertically. What is missing?",
+    "code_snippet": ".container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.box {\n  width: 200px;\n  height: 200px;\n  background: blue;\n}",
+    "options": [
+      "justify-content should be justify-items",
+      "The container needs a defined height \u2014 without it, flexbox has no vertical space to center within",
+      "align-items should be align-content",
+      "The box must also have display: flex"
+    ],
+    "correct_answer": "The container needs a defined height \u2014 without it, flexbox has no vertical space to center within",
+    "explanation": "Flexbox can only center vertically within available space. If the container has no height (or `height: auto`), it shrinks to fit its children \u2014 so there is no extra space to center within. Add `height: 100vh` or a fixed height to the container.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-146",
+    "date": "2026-05-09",
+    "topic": "devops",
+    "type": "logic-puzzle",
+    "prompt": "What is the purpose of a Kubernetes readiness probe?",
+    "options": [
+      "To restart a container that has crashed",
+      "To ensure a container only receives traffic when it is ready to serve requests",
+      "To monitor memory and CPU usage",
+      "To pull the latest image before starting a pod"
+    ],
+    "correct_answer": "To ensure a container only receives traffic when it is ready to serve requests",
+    "explanation": "A readiness probe tells Kubernetes whether a container is ready to handle requests. If the probe fails, the pod is removed from the service's load balancer until it passes again. This is critical during startup (e.g. waiting for the app to load data) and during graceful degradation. A liveness probe (different) restarts the container.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-147",
+    "date": "2026-05-09",
+    "topic": "backend",
+    "type": "logic-puzzle",
+    "prompt": "Which database index type is best suited for full-text search (e.g. searching article content by keyword)?",
+    "options": [
+      "B-tree index",
+      "Hash index",
+      "Full-text (GIN/GiST in PostgreSQL or inverted index)",
+      "Partial index"
+    ],
+    "correct_answer": "Full-text (GIN/GiST in PostgreSQL or inverted index)",
+    "explanation": "B-tree indexes support range queries and equality but not keyword search within text. Full-text indexes (GIN in PostgreSQL, inverted indexes in Elasticsearch) tokenise text into terms and build fast lookup structures. This enables efficient matching of queries like 'find articles containing \"machine learning\"'.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-148",
+    "date": "2026-05-09",
+    "topic": "data",
+    "type": "predict-output",
+    "prompt": "What does this Python generator code output?",
+    "code_snippet": "def gen():\n    yield 1\n    yield 2\n    yield 3\n\ng = gen()\nprint(next(g))\nprint(next(g))",
+    "options": [
+      "1 and 1",
+      "1 and 2",
+      "[1, 2, 3] and [1, 2, 3]",
+      "1 and StopIteration"
+    ],
+    "correct_answer": "1 and 2",
+    "explanation": "A generator function returns a generator object that produces values lazily. Each call to `next()` resumes execution until the next `yield`. First `next(g)` returns 1 and pauses. Second `next(g)` resumes and returns 2. The generator retains its state between calls.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-149",
+    "date": "2026-05-09",
+    "topic": "software",
+    "type": "logic-puzzle",
+    "prompt": "What is trunk-based development?",
+    "options": [
+      "Keeping all code in a single commit on the main branch",
+      "A branching strategy where developers commit small changes directly to the main branch (trunk) frequently, using feature flags for incomplete features",
+      "Using only one branch per feature, no matter how long it takes",
+      "A Git workflow that requires manual merges"
+    ],
+    "correct_answer": "A branching strategy where developers commit small changes directly to the main branch (trunk) frequently, using feature flags for incomplete features",
+    "explanation": "Trunk-based development (TBD) minimises long-lived branches to reduce merge conflicts. Developers push small, frequent commits to main. Incomplete features are hidden behind feature flags. This enables continuous integration and fast feedback cycles, and is used by Google, Facebook, and other high-velocity teams.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-150",
+    "date": "2026-05-09",
+    "topic": "ai",
+    "type": "logic-puzzle",
+    "prompt": "What is the difference between fine-tuning and RAG (Retrieval-Augmented Generation)?",
+    "options": [
+      "They are the same technique with different names",
+      "Fine-tuning bakes knowledge into model weights through training; RAG retrieves external documents at inference time and provides them as context",
+      "RAG is only for image models; fine-tuning is for text models",
+      "Fine-tuning is faster to implement than RAG"
+    ],
+    "correct_answer": "Fine-tuning bakes knowledge into model weights through training; RAG retrieves external documents at inference time and provides them as context",
+    "explanation": "Fine-tuning changes the model's weights to encode new patterns or knowledge \u2014 expensive, requires labelled data, and the knowledge can become stale. RAG retrieves up-to-date documents from a knowledge base and injects them into the prompt at query time \u2014 no training required, knowledge is always fresh. Most production systems start with RAG.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ch-151",
+    "date": "2026-05-09",
+    "topic": "dsa",
+    "type": "spot-the-bug",
+    "prompt": "This function checks if a string is a palindrome. What is the bug?",
+    "code_snippet": "def is_palindrome(s):\n    return s == s[::-1]\n\nprint(is_palindrome('Racecar'))",
+    "options": [
+      "s[::-1] is not valid Python",
+      "The function does not handle case \u2014 'Racecar' will return False even though it is a palindrome",
+      "The function should use a loop instead of slicing",
+      "String comparison with == does not work for palindromes"
+    ],
+    "correct_answer": "The function does not handle case \u2014 'Racecar' will return False even though it is a palindrome",
+    "explanation": "'Racecar' reversed is 'racecaR' \u2014 with capital R at the end. `'Racecar' == 'racecaR'` is `False`. Fix: `return s.lower() == s.lower()[::-1]`. You may also want to strip spaces and punctuation: `s = ''.join(c.lower() for c in s if c.isalnum())`.",
+    "difficulty": "easy"
+  }
+]
